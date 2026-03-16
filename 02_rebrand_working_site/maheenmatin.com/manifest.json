@@ -1,0 +1,15 @@
+{
+  "short_name": "Matin House",
+  "name": "Matin Consulting House",
+  "icons": [
+    {
+      "src": "logo-matin.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#031f44",
+  "background_color": "#031f44"
+}
