@@ -479,7 +479,7 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 /* ===========================
    Responsive Tweaks
    =========================== */
-@media screen and (max-width: 1200px) {
+@media screen and (min-width: 769px) and (max-width: 1200px) {
   :root {
     --sidebar-height: 72px;
   }
@@ -583,7 +583,7 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (min-width: 769px) and (max-width: 900px) {
   :root {
     --sidebar-height: 64px;
   }
@@ -647,134 +647,62 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   }
 }
 
-@media screen and (max-width: 560px) {
-  :root {
-    --sidebar-height: 58px;
-  }
-
-  .nav-container {
-    padding: 0 8px !important;
-    gap: 6px !important;
-  }
-
-  .nav-container .logo {
-    width: 88px !important;
-    height: 40px !important;
-  }
-
-  .mch-mobile-menu-toggle {
-    width: 40px;
-    height: 36px;
-    top: calc(env(safe-area-inset-top, 0px) + 8px);
-    right: 8px;
-  }
-
-  .mch-mobile-menu-toggle__bar {
-    width: 18px;
-  }
-
-  .mch-mobile-menu__panel {
-    padding: 78px 18px 20px;
-    gap: 12px;
-  }
-
-  .mch-mobile-menu__close {
-    right: 14px;
-    top: 8px;
-    font-size: 44px;
-  }
-
-  .mch-mobile-menu__link {
-    min-height: 50px;
-    padding: 10px 12px;
-    border-radius: 12px;
-  }
-
-  .mch-mobile-menu__icon {
-    width: 26px;
-    height: 26px;
-  }
-
-  .mch-mobile-menu__icon svg {
-    width: 21px;
-    height: 21px;
-  }
-
-  .mch-mobile-menu__label {
-    font-size: 14px;
-    letter-spacing: 1px;
-  }
-
-  .home-container h1.mch-hero-title {
-    margin-bottom: 12px;
-  }
-
-  .home-container h1.mch-hero-title .mch-title-primary {
-    font-size: clamp(34px, 11vw, 46px);
-    margin-bottom: 1px;
-  }
-
-  .home-container h1.mch-hero-title .mch-title-secondary {
-    font-size: clamp(10px, 3.3vw, 13px);
-    letter-spacing: 1.6px;
-    margin-top: 0;
-    padding-top: 0;
-  }
-
-  .home-container .mch-value-prop {
-    margin-top: 16px;
-    margin-bottom: 10px;
-  }
-
-  .home-container .mch-headline {
-    font-size: clamp(20px, 7.5vw, 26px);
-    line-height: 1.18;
-  }
-
-  .home-container .mch-subline {
-    margin-top: 10px;
-    font-size: 13px;
-    line-height: 1.38;
-  }
-
-  .home-container .flat-button {
-    padding: 9px 14px;
-    font-size: 11px;
-    letter-spacing: 1px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-  }
-
-  #logo-svg {
-    opacity: 0.06 !important;
-    transform: scale(0.42) !important;
-    top: 16% !important;
-  }
-}
-
 @media (max-width: 768px) {
   :root {
-    --sidebar-height: 56px;
+    --sidebar-height: 54px;
   }
 
   .nav-container {
+    height: var(--sidebar-height) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
     padding: 0 12px !important;
   }
 
+  .nav-container nav,
+  .nav-container .external-links {
+    display: none !important;
+  }
+
   .nav-container .logo {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    transform: none !important;
+    width: auto !important;
     height: 36px !important;
-    width: 84px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    flex: 0 0 auto !important;
+  }
+
+  .nav-container .logo img:first-child {
+    width: auto !important;
+    height: 100% !important;
+    max-height: 36px !important;
+    object-fit: contain !important;
+    display: block !important;
   }
 
   .mch-mobile-menu-toggle {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
     width: 40px !important;
     height: 40px !important;
-    top: calc(env(safe-area-inset-top, 0px) + 8px) !important;
-    right: 10px !important;
+    margin-left: auto !important;
+    border-radius: 10px !important;
   }
 
   .mch-mobile-menu__panel {
-    padding: calc(env(safe-area-inset-top, 0px) + 72px) 20px 20px !important;
+    padding: calc(env(safe-area-inset-top, 0px) + 66px) 20px 20px !important;
     gap: 10px !important;
     transform: translateY(-20px);
     opacity: 0;
@@ -787,22 +715,24 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   }
 
   .mch-mobile-menu__link {
-    padding: 14px 18px !important;
+    padding: 12px 16px !important;
     min-height: auto !important;
     border-radius: 12px !important;
   }
 
   .mch-mobile-menu__label {
-    font-size: 16px !important;
+    font-size: 15px !important;
+    letter-spacing: 1px !important;
   }
 
   .home-page,
   .home-container {
-    min-height: calc(85vh - var(--sidebar-height)) !important;
+    min-height: calc(78vh - var(--sidebar-height)) !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
-    padding: 36px 20px !important;
+    align-items: center !important;
+    padding: 24px 20px 16px !important;
   }
 
   .home-page .text-zone,
@@ -822,62 +752,70 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   }
 
   .home-container h1.mch-hero-title {
-    line-height: 1 !important;
-    margin-bottom: 10px !important;
-  }
-
-  .home-container h1.mch-hero-title .mch-title-primary {
-    font-size: 34px !important;
-    line-height: 1.1 !important;
-    margin-bottom: 0 !important;
-  }
-
-  .home-container h1.mch-hero-title .mch-title-secondary {
-    font-size: 14px !important;
-    line-height: 1.2 !important;
-    letter-spacing: 2px !important;
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-    border-top: 1px solid rgba(244, 236, 224, 0.42) !important;
-  }
-
-  .home-container .mch-value-prop {
-    margin-top: 14px !important;
-    margin-bottom: 0 !important;
-    max-width: 360px !important;
-  }
-
-  .home-container .mch-headline {
-    font-size: 22px !important;
-    line-height: 1.2 !important;
+    line-height: 0.92 !important;
     margin: 0 0 12px !important;
   }
 
+  .home-container h1.mch-hero-title .mch-title-primary {
+    width: fit-content !important;
+    margin: 0 auto 3px !important;
+    font-size: clamp(48px, 14vw, 60px) !important;
+    line-height: 0.9 !important;
+    letter-spacing: 0.2px !important;
+  }
+
+  .home-container h1.mch-hero-title .mch-title-secondary {
+    width: fit-content !important;
+    margin: 0 auto !important;
+    padding: 2px 4px 0 !important;
+    border-top: 1px solid rgba(244, 236, 224, 0.38) !important;
+    font-size: 12px !important;
+    line-height: 1.1 !important;
+    letter-spacing: 2.4px !important;
+  }
+
+  .home-container .mch-value-prop {
+    margin: 10px 0 0 !important;
+    max-width: 350px !important;
+  }
+
+  .home-container .mch-headline {
+    font-size: clamp(23px, 6.7vw, 30px) !important;
+    line-height: 1.22 !important;
+    margin: 0 0 10px !important;
+  }
+
   .home-container .mch-subline {
-    font-size: 15px !important;
-    line-height: 1.6 !important;
+    font-size: 14px !important;
+    line-height: 1.52 !important;
     max-width: 320px !important;
-    margin: 0 0 20px !important;
+    margin: 0 0 18px !important;
   }
 
   .home-container .flat-button {
-    padding: 14px 28px !important;
-    font-size: 15px !important;
-    border-radius: 8px !important;
-    border: 2px solid rgba(247, 242, 232, 0.98) !important;
-    margin-top: 0 !important;
-    margin-bottom: 10px !important;
+    padding: 12px 24px !important;
+    font-size: 14px !important;
+    letter-spacing: 1.1px !important;
+    border-radius: 7px !important;
+    border: 1.5px solid rgba(247, 242, 232, 0.9) !important;
+    margin: 0 !important;
   }
 
   .home-container .flat-button:active {
-    transform: scale(0.97) !important;
+    transform: scale(0.98) !important;
+  }
+
+  #logo-svg {
+    opacity: 0.035 !important;
+    transform: scale(0.4) !important;
+    top: 18% !important;
   }
 
   body {
-    background-size: 1500px auto !important;
+    background-size: 1650px auto !important;
   }
 
   body::before {
-    background: linear-gradient(180deg, rgba(3, 31, 68, 0.9), rgba(3, 31, 68, 0.95)) !important;
+    background: linear-gradient(180deg, rgba(3, 31, 68, 0.94), rgba(3, 31, 68, 0.975)) !important;
   }
 }

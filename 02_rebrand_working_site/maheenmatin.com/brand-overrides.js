@@ -122,7 +122,9 @@
         '<span class="mch-mobile-menu-toggle__bar"></span>' +
         '<span class="mch-mobile-menu-toggle__bar"></span>' +
         '<span class="mch-mobile-menu-toggle__bar"></span>';
-      document.body.appendChild(toggle);
+      navContainer.appendChild(toggle);
+    } else if (toggle.parentElement !== navContainer) {
+      navContainer.appendChild(toggle);
     }
 
     if (toggle.dataset.mchBound !== "1") {
