@@ -22,6 +22,10 @@
   var ABOUT_ROUTE = "/about";
   var PROJECTS_ROUTE = "/projects";
   var CONTACT_ROUTE = "/contact";
+  var HOME_LINK_SELECTOR = ".nav-container nav a:not(.about-link):not(.projects-link):not(.contact-link)";
+  var ABOUT_LINK_SELECTOR = ".nav-container nav a.about-link";
+  var PROJECTS_LINK_SELECTOR = ".nav-container nav a.projects-link";
+  var CONTACT_LINK_SELECTOR = ".nav-container nav a.contact-link";
 
   // -----------------------------
   // Shared helpers
@@ -49,13 +53,31 @@
     document.body.classList.remove("mch-mobile-menu-open");
   }
 
-  function navigateToHref(href) {
-    if (!href) {
-      window.location.assign("/");
-      return;
+  function navigateInternalRoute(route, selector) {
+    var targetRoute = route || HOME_ROUTE;
+    var navLink = selector ? document.querySelector(selector) : null;
+
+    // Primary path: trigger the original React Router link handler.
+    if (navLink) {
+      navLink.dispatchEvent(
+        new MouseEvent("click", {
+          bubbles: true,
+          cancelable: true,
+          view: window
+        })
+      );
     }
 
-    window.location.assign(href);
+    // Fallback path: force SPA history navigation without full reload.
+    window.setTimeout(function () {
+      if (window.location.pathname === targetRoute) return;
+      try {
+        window.history.pushState({}, "", targetRoute);
+        window.dispatchEvent(new PopStateEvent("popstate"));
+      } catch (err) {
+        // Avoid full reload here to prevent deep-route asset path issues.
+      }
+    }, 50);
   }
 
   function iconMarkupFromLink(link, fallbackChar) {
@@ -64,7 +86,7 @@
     return '<span class="mch-mobile-menu-fallback-icon">' + fallbackChar + "</span>";
   }
 
-  function setMobileMenuItem(item, iconMarkup, label, href, isInternal, externalTarget) {
+  function setMobileMenuItem(item, iconMarkup, label, href, isInternal, externalTarget, route, selector) {
     if (!item) return;
 
     var iconSlot = item.querySelector(".mch-mobile-menu__icon");
@@ -74,6 +96,8 @@
 
     item.setAttribute("href", href);
     item.setAttribute("data-internal", isInternal ? "1" : "0");
+    item.setAttribute("data-route", route || "");
+    item.setAttribute("data-selector", selector || "");
 
     if (externalTarget) {
       item.setAttribute("target", externalTarget);
@@ -141,7 +165,7 @@
         if (linkEl.getAttribute("data-internal") === "1") {
           event.preventDefault();
           closeMobileMenu();
-          navigateToHref(linkEl.getAttribute("href"));
+          navigateInternalRoute(linkEl.getAttribute("data-route"), linkEl.getAttribute("data-selector"));
           return;
         }
 
@@ -167,7 +191,9 @@
       "Home",
       homeHref,
       true,
-      null
+      null,
+      HOME_ROUTE,
+      HOME_LINK_SELECTOR
     );
     setMobileMenuItem(
       aboutItem,
@@ -175,7 +201,9 @@
       "About",
       aboutHref,
       true,
-      null
+      null,
+      ABOUT_ROUTE,
+      ABOUT_LINK_SELECTOR
     );
     setMobileMenuItem(
       projectsItem,
@@ -183,7 +211,9 @@
       "Projects",
       projectsHref,
       true,
-      null
+      null,
+      PROJECTS_ROUTE,
+      PROJECTS_LINK_SELECTOR
     );
     setMobileMenuItem(
       contactItem,
@@ -191,7 +221,9 @@
       "Contact",
       contactHref,
       true,
-      null
+      null,
+      CONTACT_ROUTE,
+      CONTACT_LINK_SELECTOR
     );
 
     setMobileMenuItem(
@@ -200,7 +232,9 @@
       "GitHub",
       githubLink ? githubLink.getAttribute("href") || "https://github.com" : "https://github.com",
       false,
-      "_blank"
+      "_blank",
+      "",
+      ""
     );
 
     setMobileMenuItem(
@@ -209,7 +243,9 @@
       "LinkedIn",
       linkedinLink ? linkedinLink.getAttribute("href") || "https://www.linkedin.com" : "https://www.linkedin.com",
       false,
-      "_blank"
+      "_blank",
+      "",
+      ""
     );
   }
 
@@ -269,10 +305,10 @@
       logoImgs[1].style.display = "none";
     }
 
-    var homeLink = document.querySelector(".nav-container nav a:not(.about-link):not(.projects-link):not(.contact-link)");
-    var aboutLink = document.querySelector(".nav-container nav a.about-link");
-    var servicesLink = document.querySelector(".nav-container nav a.projects-link");
-    var contactLink = document.querySelector(".nav-container nav a.contact-link");
+    var homeLink = document.querySelector(HOME_LINK_SELECTOR);
+    var aboutLink = document.querySelector(ABOUT_LINK_SELECTOR);
+    var servicesLink = document.querySelector(PROJECTS_LINK_SELECTOR);
+    var contactLink = document.querySelector(CONTACT_LINK_SELECTOR);
     var githubLink = document.querySelector('.nav-container .external-links a[href*="github.com"]');
     var linkedinLink = document.querySelector('.nav-container .external-links a[href*="linkedin.com"]');
 
