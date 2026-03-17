@@ -112,7 +112,7 @@
     var navContainer = document.querySelector(".nav-container");
     if (!navContainer) return;
 
-    var toggle = navContainer.querySelector(".mch-mobile-menu-toggle");
+    var toggle = document.querySelector(".mch-mobile-menu-toggle");
     if (!toggle) {
       toggle = document.createElement("button");
       toggle.type = "button";
@@ -122,14 +122,21 @@
         '<span class="mch-mobile-menu-toggle__bar"></span>' +
         '<span class="mch-mobile-menu-toggle__bar"></span>' +
         '<span class="mch-mobile-menu-toggle__bar"></span>';
-      navContainer.appendChild(toggle);
+      document.body.appendChild(toggle);
     }
 
     if (toggle.dataset.mchBound !== "1") {
-      toggle.dataset.mchBound = "1";
-      toggle.addEventListener("click", function () {
+      function toggleHandler(event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
         document.body.classList.toggle("mch-mobile-menu-open");
-      });
+      }
+
+      toggle.dataset.mchBound = "1";
+      toggle.addEventListener("click", toggleHandler, { passive: false });
+      toggle.addEventListener("touchend", toggleHandler, { passive: false });
     }
 
     var menu = document.querySelector(".mch-mobile-menu");
