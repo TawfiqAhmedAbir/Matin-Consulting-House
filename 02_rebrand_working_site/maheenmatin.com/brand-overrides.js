@@ -18,6 +18,10 @@
   var HERO_SUBLINE =
     "We help organisations turn ambitious strategy into measurable outcomes through data-driven advisory and implementation.";
   var CTA_LABEL = "CONTACT US";
+  var ROUTE_HOME = "/";
+  var ROUTE_ABOUT = "/about";
+  var ROUTE_PROJECTS = "/projects";
+  var ROUTE_CONTACT = "/contact";
 
   // -----------------------------
   // Shared helpers
@@ -39,6 +43,170 @@
       }
     }
     return html;
+  }
+
+  function closeMobileMenu() {
+    document.body.classList.remove("mch-mobile-menu-open");
+  }
+
+  function navigateInternal(path) {
+    var targetPath = path || ROUTE_HOME;
+    if (window.location.pathname === targetPath) {
+      scheduleApply();
+      return;
+    }
+
+    try {
+      window.history.pushState({}, "", targetPath);
+      window.dispatchEvent(new PopStateEvent("popstate"));
+      window.setTimeout(function () {
+        scheduleApply();
+      }, 40);
+    } catch (err) {
+      window.location.assign(targetPath);
+    }
+  }
+
+  function bindInternalLink(link, path) {
+    if (!link) return;
+
+    link.setAttribute("href", path);
+    link.setAttribute("data-mch-route", path);
+
+    if (link.dataset.mchRouteBound === "1") return;
+    link.dataset.mchRouteBound = "1";
+
+    link.addEventListener("click", function (event) {
+      if (event.defaultPrevented) return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      var route = link.getAttribute("data-mch-route") || ROUTE_HOME;
+      event.preventDefault();
+      closeMobileMenu();
+      navigateInternal(route);
+    });
+  }
+
+  function iconMarkupFromLink(link, fallbackChar) {
+    var svg = link ? link.querySelector("svg") : null;
+    if (svg) return svg.outerHTML;
+    return '<span class="mch-mobile-menu-fallback-icon">' + fallbackChar + "</span>";
+  }
+
+  function setMobileMenuItem(item, iconMarkup, label, href, isInternal, externalTarget) {
+    if (!item) return;
+
+    var iconSlot = item.querySelector(".mch-mobile-menu__icon");
+    var labelSlot = item.querySelector(".mch-mobile-menu__label");
+    if (iconSlot) iconSlot.innerHTML = iconMarkup;
+    if (labelSlot) labelSlot.textContent = label;
+
+    item.setAttribute("href", href);
+    item.setAttribute("data-internal", isInternal ? "1" : "0");
+
+    if (externalTarget) {
+      item.setAttribute("target", externalTarget);
+      item.setAttribute("rel", "noreferrer");
+    } else {
+      item.removeAttribute("target");
+      item.removeAttribute("rel");
+    }
+  }
+
+  function ensureMobileMenu(homeLink, aboutLink, servicesLink, contactLink, githubLink, linkedinLink) {
+    var navContainer = document.querySelector(".nav-container");
+    if (!navContainer) return;
+
+    var toggle = navContainer.querySelector(".mch-mobile-menu-toggle");
+    if (!toggle) {
+      toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "mch-mobile-menu-toggle";
+      toggle.setAttribute("aria-label", "Open navigation menu");
+      toggle.innerHTML =
+        '<span class="mch-mobile-menu-toggle__bar"></span>' +
+        '<span class="mch-mobile-menu-toggle__bar"></span>' +
+        '<span class="mch-mobile-menu-toggle__bar"></span>';
+      navContainer.appendChild(toggle);
+    }
+
+    if (toggle.dataset.mchBound !== "1") {
+      toggle.dataset.mchBound = "1";
+      toggle.addEventListener("click", function () {
+        document.body.classList.toggle("mch-mobile-menu-open");
+      });
+    }
+
+    var menu = document.querySelector(".mch-mobile-menu");
+    if (!menu) {
+      menu = document.createElement("div");
+      menu.className = "mch-mobile-menu";
+      menu.innerHTML =
+        '<div class="mch-mobile-menu__backdrop" data-close="1"></div>' +
+        '<div class="mch-mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">' +
+        '<button type="button" class="mch-mobile-menu__close" aria-label="Close navigation" data-close="1">&times;</button>' +
+        '<a class="mch-mobile-menu__link mch-mobile-menu__link--home"><span class="mch-mobile-menu__icon"></span><span class="mch-mobile-menu__label"></span></a>' +
+        '<a class="mch-mobile-menu__link mch-mobile-menu__link--about"><span class="mch-mobile-menu__icon"></span><span class="mch-mobile-menu__label"></span></a>' +
+        '<a class="mch-mobile-menu__link mch-mobile-menu__link--projects"><span class="mch-mobile-menu__icon"></span><span class="mch-mobile-menu__label"></span></a>' +
+        '<a class="mch-mobile-menu__link mch-mobile-menu__link--contact"><span class="mch-mobile-menu__icon"></span><span class="mch-mobile-menu__label"></span></a>' +
+        '<a class="mch-mobile-menu__link mch-mobile-menu__link--github"><span class="mch-mobile-menu__icon"></span><span class="mch-mobile-menu__label"></span></a>' +
+        '<a class="mch-mobile-menu__link mch-mobile-menu__link--linkedin"><span class="mch-mobile-menu__icon"></span><span class="mch-mobile-menu__label"></span></a>' +
+        "</div>";
+      document.body.appendChild(menu);
+    }
+
+    if (menu.dataset.mchBound !== "1") {
+      menu.dataset.mchBound = "1";
+      menu.addEventListener("click", function (event) {
+        var closeEl = event.target.closest("[data-close='1']");
+        if (closeEl) {
+          closeMobileMenu();
+          return;
+        }
+
+        var linkEl = event.target.closest(".mch-mobile-menu__link");
+        if (!linkEl) return;
+
+        if (linkEl.getAttribute("data-internal") === "1") {
+          event.preventDefault();
+          closeMobileMenu();
+          navigateInternal(linkEl.getAttribute("href"));
+          return;
+        }
+
+        closeMobileMenu();
+      });
+    }
+
+    var homeItem = menu.querySelector(".mch-mobile-menu__link--home");
+    var aboutItem = menu.querySelector(".mch-mobile-menu__link--about");
+    var projectsItem = menu.querySelector(".mch-mobile-menu__link--projects");
+    var contactItem = menu.querySelector(".mch-mobile-menu__link--contact");
+    var githubItem = menu.querySelector(".mch-mobile-menu__link--github");
+    var linkedinItem = menu.querySelector(".mch-mobile-menu__link--linkedin");
+
+    setMobileMenuItem(homeItem, iconMarkupFromLink(homeLink, "H"), "Home", ROUTE_HOME, true);
+    setMobileMenuItem(aboutItem, iconMarkupFromLink(aboutLink, "A"), "About", ROUTE_ABOUT, true);
+    setMobileMenuItem(projectsItem, iconMarkupFromLink(servicesLink, "P"), "Projects", ROUTE_PROJECTS, true);
+    setMobileMenuItem(contactItem, iconMarkupFromLink(contactLink, "C"), "Contact", ROUTE_CONTACT, true);
+
+    setMobileMenuItem(
+      githubItem,
+      iconMarkupFromLink(githubLink, "G"),
+      "GitHub",
+      githubLink ? githubLink.getAttribute("href") || "https://github.com" : "https://github.com",
+      false,
+      "_blank"
+    );
+
+    setMobileMenuItem(
+      linkedinItem,
+      iconMarkupFromLink(linkedinLink, "in"),
+      "LinkedIn",
+      linkedinLink ? linkedinLink.getAttribute("href") || "https://www.linkedin.com" : "https://www.linkedin.com",
+      false,
+      "_blank"
+    );
   }
 
   // -----------------------------
@@ -108,8 +276,13 @@
 
     if (homeLink) homeLink.setAttribute("data-label", "Home");
     if (aboutLink) aboutLink.setAttribute("data-label", "About");
-    if (servicesLink) servicesLink.setAttribute("data-label", "Services");
+    if (servicesLink) servicesLink.setAttribute("data-label", "Projects");
     if (contactLink) contactLink.setAttribute("data-label", "Contact");
+
+    bindInternalLink(homeLink, ROUTE_HOME);
+    bindInternalLink(aboutLink, ROUTE_ABOUT);
+    bindInternalLink(servicesLink, ROUTE_PROJECTS);
+    bindInternalLink(contactLink, ROUTE_CONTACT);
 
     if (githubLink) {
       var githubIcon = githubLink.querySelector("svg");
@@ -124,6 +297,8 @@
       linkedinLink.setAttribute("rel", "noreferrer");
       linkedinLink.setAttribute("data-label", "LinkedIn");
     }
+
+    ensureMobileMenu(homeLink, aboutLink, servicesLink, contactLink, githubLink, linkedinLink);
   }
 
   // -----------------------------

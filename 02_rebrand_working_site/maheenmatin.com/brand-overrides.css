@@ -229,6 +229,124 @@ body::before {
 }
 
 /* ===========================
+   Mobile Menu (Phone Navigation)
+   =========================== */
+.mch-mobile-menu-toggle {
+  display: none !important;
+  width: 44px;
+  height: 40px;
+  border: 1px solid rgba(244, 236, 224, 0.4);
+  border-radius: 10px;
+  background: rgba(244, 236, 224, 0.08);
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mch-mobile-menu-toggle__bar {
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color4);
+}
+
+.mch-mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+body.mch-mobile-menu-open {
+  overflow: hidden;
+}
+
+body.mch-mobile-menu-open .mch-mobile-menu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.mch-mobile-menu__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 31, 68, 0.5);
+}
+
+.mch-mobile-menu__panel {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 31, 68, 0.98);
+  padding: 86px 28px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mch-mobile-menu__close {
+  position: absolute;
+  right: 18px;
+  top: 12px;
+  border: none;
+  background: transparent;
+  color: var(--color4);
+  font-size: 52px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mch-mobile-menu__link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid rgba(244, 236, 224, 0.24);
+  border-radius: 14px;
+  background: rgba(244, 236, 224, 0.05);
+  color: var(--color4);
+  text-decoration: none;
+  padding: 12px 14px;
+  min-height: 58px;
+}
+
+.mch-mobile-menu__icon {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mch-mobile-menu__icon svg {
+  width: 24px;
+  height: 24px;
+  color: var(--color4);
+}
+
+.mch-mobile-menu-fallback-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color4);
+}
+
+.mch-mobile-menu__label {
+  font-family: "Times New Roman", Georgia, "Garamond", serif;
+  font-size: 16px;
+  letter-spacing: 1.2px;
+}
+
+/* ===========================
    Main Page Offset + Watermark
    =========================== */
 .page {
@@ -459,66 +577,30 @@ body::before {
 
   .nav-container {
     display: grid !important;
-    grid-template-columns: auto 1fr auto !important;
+    grid-template-columns: 1fr auto !important;
     align-items: center !important;
-    gap: 6px !important;
-    padding: 0 8px !important;
+    gap: 8px !important;
+    padding: 0 10px !important;
+    justify-content: space-between !important;
   }
 
   .nav-container .logo {
     position: static !important;
-    width: 84px !important;
-    height: 44px !important;
+    width: 98px !important;
+    height: 46px !important;
     justify-content: flex-start !important;
   }
 
   .nav-container nav {
-    width: auto !important;
-    gap: 6px !important;
-    padding: 0 !important;
-    justify-content: center !important;
+    display: none !important;
   }
 
   .nav-container .external-links {
-    position: static !important;
-    transform: none !important;
-    right: auto !important;
-    top: auto !important;
-    gap: 6px !important;
-  }
-
-  .nav-container nav a,
-  .nav-container .external-links a {
-    width: 40px !important;
-    height: 36px !important;
-  }
-
-  .nav-container nav a::after,
-  .nav-container .external-links a::after {
     display: none !important;
-    content: none !important;
   }
 
-  .nav-container nav a:hover,
-  .nav-container nav a.active,
-  .nav-container .external-links a:hover,
-  .nav-container .external-links a.active {
-    width: 40px !important;
-    transform: none !important;
-  }
-
-  .nav-container .external-links a[data-label="LinkedIn"]:hover {
-    width: 40px !important;
-  }
-
-  .nav-container nav a:hover svg,
-  .nav-container nav a.active svg,
-  .nav-container .external-links a:hover svg,
-  .nav-container .external-links a.active svg {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    transform: none !important;
+  .mch-mobile-menu-toggle {
+    display: inline-flex !important;
   }
 
   .home-container .text-zone {
@@ -555,38 +637,54 @@ body::before {
   }
 
   .nav-container {
-    padding: 0 6px !important;
-    gap: 4px !important;
+    padding: 0 8px !important;
+    gap: 6px !important;
   }
 
   .nav-container .logo {
-    width: 70px !important;
-    height: 36px !important;
+    width: 88px !important;
+    height: 40px !important;
   }
 
-  .nav-container nav,
-  .nav-container .external-links {
-    gap: 4px !important;
+  .mch-mobile-menu-toggle {
+    width: 40px;
+    height: 36px;
   }
 
-  .nav-container nav a,
-  .nav-container .external-links a {
-    width: 32px !important;
-    height: 30px !important;
-    border-radius: 8px !important;
+  .mch-mobile-menu-toggle__bar {
+    width: 18px;
   }
 
-  .nav-container nav a:hover,
-  .nav-container nav a.active,
-  .nav-container .external-links a:hover,
-  .nav-container .external-links a.active,
-  .nav-container .external-links a[data-label="LinkedIn"]:hover {
-    width: 32px !important;
+  .mch-mobile-menu__panel {
+    padding: 78px 18px 20px;
+    gap: 12px;
   }
 
-  .nav-container nav a svg,
-  .nav-container .external-links a svg {
-    transform: scale(0.88) !important;
+  .mch-mobile-menu__close {
+    right: 14px;
+    top: 8px;
+    font-size: 44px;
+  }
+
+  .mch-mobile-menu__link {
+    min-height: 50px;
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+
+  .mch-mobile-menu__icon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .mch-mobile-menu__icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .mch-mobile-menu__label {
+    font-size: 14px;
+    letter-spacing: 1px;
   }
 
   .home-container h1.mch-hero-title {
