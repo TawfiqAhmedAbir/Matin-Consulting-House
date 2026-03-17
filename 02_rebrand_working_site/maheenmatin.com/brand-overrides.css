@@ -692,6 +692,7 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   }
 
   .mch-mobile-menu-toggle {
+    display: inline-flex !important;
     position: static !important;
     top: auto !important;
     right: auto !important;
