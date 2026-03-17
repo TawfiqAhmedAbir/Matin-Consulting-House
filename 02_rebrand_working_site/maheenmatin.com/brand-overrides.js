@@ -18,10 +18,10 @@
   var HERO_SUBLINE =
     "We help organisations turn ambitious strategy into measurable outcomes through data-driven advisory and implementation.";
   var CTA_LABEL = "CONTACT US";
-  var ROUTE_HOME = "/";
-  var ROUTE_ABOUT = "/about";
-  var ROUTE_PROJECTS = "/projects";
-  var ROUTE_CONTACT = "/contact";
+  var HOME_LINK_SELECTOR = ".nav-container nav a:not(.about-link):not(.projects-link):not(.contact-link)";
+  var ABOUT_LINK_SELECTOR = ".nav-container nav a.about-link";
+  var PROJECTS_LINK_SELECTOR = ".nav-container nav a.projects-link";
+  var CONTACT_LINK_SELECTOR = ".nav-container nav a.contact-link";
 
   // -----------------------------
   // Shared helpers
@@ -49,42 +49,27 @@
     document.body.classList.remove("mch-mobile-menu-open");
   }
 
-  function navigateInternal(path) {
-    var targetPath = path || ROUTE_HOME;
-    if (window.location.pathname === targetPath) {
-      scheduleApply();
+  function navigateToHref(href) {
+    if (!href) {
+      window.location.assign("/");
       return;
     }
 
-    try {
-      window.history.pushState({}, "", targetPath);
-      window.dispatchEvent(new PopStateEvent("popstate"));
+    window.location.assign(href);
+  }
+
+  function routeViaExistingNav(selector, fallbackHref) {
+    var navLink = selector ? document.querySelector(selector) : null;
+    if (navLink) {
+      // Use the app's own router wiring by clicking its original link.
+      navLink.click();
       window.setTimeout(function () {
         scheduleApply();
       }, 40);
-    } catch (err) {
-      window.location.assign(targetPath);
+      return;
     }
-  }
 
-  function bindInternalLink(link, path) {
-    if (!link) return;
-
-    link.setAttribute("href", path);
-    link.setAttribute("data-mch-route", path);
-
-    if (link.dataset.mchRouteBound === "1") return;
-    link.dataset.mchRouteBound = "1";
-
-    link.addEventListener("click", function (event) {
-      if (event.defaultPrevented) return;
-      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-
-      var route = link.getAttribute("data-mch-route") || ROUTE_HOME;
-      event.preventDefault();
-      closeMobileMenu();
-      navigateInternal(route);
-    });
+    navigateToHref(fallbackHref || "/");
   }
 
   function iconMarkupFromLink(link, fallbackChar) {
@@ -93,7 +78,7 @@
     return '<span class="mch-mobile-menu-fallback-icon">' + fallbackChar + "</span>";
   }
 
-  function setMobileMenuItem(item, iconMarkup, label, href, isInternal, externalTarget) {
+  function setMobileMenuItem(item, iconMarkup, label, href, isInternal, externalTarget, navSelector) {
     if (!item) return;
 
     var iconSlot = item.querySelector(".mch-mobile-menu__icon");
@@ -103,6 +88,7 @@
 
     item.setAttribute("href", href);
     item.setAttribute("data-internal", isInternal ? "1" : "0");
+    item.setAttribute("data-nav-selector", navSelector || "");
 
     if (externalTarget) {
       item.setAttribute("target", externalTarget);
@@ -170,7 +156,7 @@
         if (linkEl.getAttribute("data-internal") === "1") {
           event.preventDefault();
           closeMobileMenu();
-          navigateInternal(linkEl.getAttribute("href"));
+          routeViaExistingNav(linkEl.getAttribute("data-nav-selector"), linkEl.getAttribute("href"));
           return;
         }
 
@@ -185,10 +171,47 @@
     var githubItem = menu.querySelector(".mch-mobile-menu__link--github");
     var linkedinItem = menu.querySelector(".mch-mobile-menu__link--linkedin");
 
-    setMobileMenuItem(homeItem, iconMarkupFromLink(homeLink, "H"), "Home", ROUTE_HOME, true);
-    setMobileMenuItem(aboutItem, iconMarkupFromLink(aboutLink, "A"), "About", ROUTE_ABOUT, true);
-    setMobileMenuItem(projectsItem, iconMarkupFromLink(servicesLink, "P"), "Projects", ROUTE_PROJECTS, true);
-    setMobileMenuItem(contactItem, iconMarkupFromLink(contactLink, "C"), "Contact", ROUTE_CONTACT, true);
+    var homeHref = (homeLink && homeLink.getAttribute("href")) || "/";
+    var aboutHref = (aboutLink && aboutLink.getAttribute("href")) || "/about";
+    var projectsHref = (servicesLink && servicesLink.getAttribute("href")) || "/projects";
+    var contactHref = (contactLink && contactLink.getAttribute("href")) || "/contact";
+
+    setMobileMenuItem(
+      homeItem,
+      iconMarkupFromLink(homeLink, "H"),
+      "Home",
+      homeHref,
+      true,
+      null,
+      HOME_LINK_SELECTOR
+    );
+    setMobileMenuItem(
+      aboutItem,
+      iconMarkupFromLink(aboutLink, "A"),
+      "About",
+      aboutHref,
+      true,
+      null,
+      ABOUT_LINK_SELECTOR
+    );
+    setMobileMenuItem(
+      projectsItem,
+      iconMarkupFromLink(servicesLink, "P"),
+      "Projects",
+      projectsHref,
+      true,
+      null,
+      PROJECTS_LINK_SELECTOR
+    );
+    setMobileMenuItem(
+      contactItem,
+      iconMarkupFromLink(contactLink, "C"),
+      "Contact",
+      contactHref,
+      true,
+      null,
+      CONTACT_LINK_SELECTOR
+    );
 
     setMobileMenuItem(
       githubItem,
@@ -196,7 +219,8 @@
       "GitHub",
       githubLink ? githubLink.getAttribute("href") || "https://github.com" : "https://github.com",
       false,
-      "_blank"
+      "_blank",
+      ""
     );
 
     setMobileMenuItem(
@@ -205,7 +229,8 @@
       "LinkedIn",
       linkedinLink ? linkedinLink.getAttribute("href") || "https://www.linkedin.com" : "https://www.linkedin.com",
       false,
-      "_blank"
+      "_blank",
+      ""
     );
   }
 
@@ -265,12 +290,10 @@
       logoImgs[1].style.display = "none";
     }
 
-    var homeLink = document.querySelector(
-      ".nav-container nav a:not(.about-link):not(.projects-link):not(.contact-link)"
-    );
-    var aboutLink = document.querySelector(".nav-container nav a.about-link");
-    var servicesLink = document.querySelector(".nav-container nav a.projects-link");
-    var contactLink = document.querySelector(".nav-container nav a.contact-link");
+    var homeLink = document.querySelector(HOME_LINK_SELECTOR);
+    var aboutLink = document.querySelector(ABOUT_LINK_SELECTOR);
+    var servicesLink = document.querySelector(PROJECTS_LINK_SELECTOR);
+    var contactLink = document.querySelector(CONTACT_LINK_SELECTOR);
     var githubLink = document.querySelector('.nav-container .external-links a[href*="github.com"]');
     var linkedinLink = document.querySelector('.nav-container .external-links a[href*="linkedin.com"]');
 
@@ -278,11 +301,6 @@
     if (aboutLink) aboutLink.setAttribute("data-label", "About");
     if (servicesLink) servicesLink.setAttribute("data-label", "Projects");
     if (contactLink) contactLink.setAttribute("data-label", "Contact");
-
-    bindInternalLink(homeLink, ROUTE_HOME);
-    bindInternalLink(aboutLink, ROUTE_ABOUT);
-    bindInternalLink(servicesLink, ROUTE_PROJECTS);
-    bindInternalLink(contactLink, ROUTE_CONTACT);
 
     if (githubLink) {
       var githubIcon = githubLink.querySelector("svg");
