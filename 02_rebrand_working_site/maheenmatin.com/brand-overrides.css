@@ -649,7 +649,7 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 
 @media (max-width: 768px) {
   :root {
-    --sidebar-height: 54px;
+    --sidebar-height: 58px;
   }
 
   .nav-container {
@@ -673,22 +673,27 @@ body.mch-mobile-menu-open .mch-mobile-menu {
     right: auto !important;
     transform: none !important;
     width: auto !important;
-    height: 36px !important;
+    height: 42px !important;
     margin: 0 !important;
     padding: 0 !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     overflow: visible !important;
+    min-width: 112px !important;
     flex: 0 0 auto !important;
   }
 
   .nav-container .logo img:first-child {
     width: auto !important;
-    height: 100% !important;
-    max-height: 36px !important;
+    height: 42px !important;
+    max-height: 42px !important;
+    max-width: 132px !important;
     object-fit: contain !important;
+    object-position: left center !important;
     display: block !important;
+    transform: scale(1.08) !important;
+    transform-origin: left center !important;
   }
 
   .mch-mobile-menu-toggle {
