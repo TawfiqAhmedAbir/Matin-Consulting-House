@@ -18,10 +18,10 @@
   var HERO_SUBLINE =
     "We help organisations turn ambitious strategy into measurable outcomes through data-driven advisory and implementation.";
   var CTA_LABEL = "CONTACT US";
-  var HOME_LINK_INDEX = 0;
-  var ABOUT_LINK_INDEX = 1;
-  var PROJECTS_LINK_INDEX = 2;
-  var CONTACT_LINK_INDEX = 3;
+  var HOME_ROUTE = "/";
+  var ABOUT_ROUTE = "/about";
+  var PROJECTS_ROUTE = "/projects";
+  var CONTACT_ROUTE = "/contact";
 
   // -----------------------------
   // Shared helpers
@@ -58,28 +58,13 @@
     window.location.assign(href);
   }
 
-  function routeViaNavIndex(navIndex, fallbackHref) {
-    var navLinks = document.querySelectorAll(".nav-container nav a");
-    var navLink = typeof navIndex === "number" && navIndex >= 0 ? navLinks[navIndex] : null;
-    if (navLink) {
-      // Use the app's own router wiring by clicking its original link.
-      navLink.click();
-      window.setTimeout(function () {
-        scheduleApply();
-      }, 40);
-      return;
-    }
-
-    navigateToHref(fallbackHref || "/");
-  }
-
   function iconMarkupFromLink(link, fallbackChar) {
     var svg = link ? link.querySelector("svg") : null;
     if (svg) return svg.outerHTML;
     return '<span class="mch-mobile-menu-fallback-icon">' + fallbackChar + "</span>";
   }
 
-  function setMobileMenuItem(item, iconMarkup, label, href, isInternal, externalTarget, navIndex) {
+  function setMobileMenuItem(item, iconMarkup, label, href, isInternal, externalTarget) {
     if (!item) return;
 
     var iconSlot = item.querySelector(".mch-mobile-menu__icon");
@@ -89,7 +74,6 @@
 
     item.setAttribute("href", href);
     item.setAttribute("data-internal", isInternal ? "1" : "0");
-    item.setAttribute("data-nav-index", typeof navIndex === "number" ? String(navIndex) : "");
 
     if (externalTarget) {
       item.setAttribute("target", externalTarget);
@@ -157,9 +141,7 @@
         if (linkEl.getAttribute("data-internal") === "1") {
           event.preventDefault();
           closeMobileMenu();
-          var navIndexAttr = linkEl.getAttribute("data-nav-index");
-          var navIndex = navIndexAttr === "" ? -1 : Number(navIndexAttr);
-          routeViaNavIndex(navIndex, linkEl.getAttribute("href"));
+          navigateToHref(linkEl.getAttribute("href"));
           return;
         }
 
@@ -174,10 +156,10 @@
     var githubItem = menu.querySelector(".mch-mobile-menu__link--github");
     var linkedinItem = menu.querySelector(".mch-mobile-menu__link--linkedin");
 
-    var homeHref = (homeLink && homeLink.getAttribute("href")) || "/";
-    var aboutHref = (aboutLink && aboutLink.getAttribute("href")) || "/";
-    var projectsHref = (servicesLink && servicesLink.getAttribute("href")) || "/";
-    var contactHref = (contactLink && contactLink.getAttribute("href")) || "/";
+    var homeHref = HOME_ROUTE;
+    var aboutHref = ABOUT_ROUTE;
+    var projectsHref = PROJECTS_ROUTE;
+    var contactHref = CONTACT_ROUTE;
 
     setMobileMenuItem(
       homeItem,
@@ -185,8 +167,7 @@
       "Home",
       homeHref,
       true,
-      null,
-      HOME_LINK_INDEX
+      null
     );
     setMobileMenuItem(
       aboutItem,
@@ -194,8 +175,7 @@
       "About",
       aboutHref,
       true,
-      null,
-      ABOUT_LINK_INDEX
+      null
     );
     setMobileMenuItem(
       projectsItem,
@@ -203,8 +183,7 @@
       "Projects",
       projectsHref,
       true,
-      null,
-      PROJECTS_LINK_INDEX
+      null
     );
     setMobileMenuItem(
       contactItem,
@@ -212,8 +191,7 @@
       "Contact",
       contactHref,
       true,
-      null,
-      CONTACT_LINK_INDEX
+      null
     );
 
     setMobileMenuItem(
@@ -291,11 +269,10 @@
       logoImgs[1].style.display = "none";
     }
 
-    var primaryLinks = document.querySelectorAll(".nav-container nav a");
-    var homeLink = primaryLinks[HOME_LINK_INDEX];
-    var aboutLink = primaryLinks[ABOUT_LINK_INDEX];
-    var servicesLink = primaryLinks[PROJECTS_LINK_INDEX];
-    var contactLink = primaryLinks[CONTACT_LINK_INDEX];
+    var homeLink = document.querySelector(".nav-container nav a:not(.about-link):not(.projects-link):not(.contact-link)");
+    var aboutLink = document.querySelector(".nav-container nav a.about-link");
+    var servicesLink = document.querySelector(".nav-container nav a.projects-link");
+    var contactLink = document.querySelector(".nav-container nav a.contact-link");
     var githubLink = document.querySelector('.nav-container .external-links a[href*="github.com"]');
     var linkedinLink = document.querySelector('.nav-container .external-links a[href*="linkedin.com"]');
 
