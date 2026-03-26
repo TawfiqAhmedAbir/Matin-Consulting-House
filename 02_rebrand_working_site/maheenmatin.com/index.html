@@ -4,9 +4,17 @@
     <meta charset="utf-8" />
     <base href="/" />
 
+    <!-- Fonts: load here so brand-overrides.css is not blocked by @import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Brand metadata -->
-    <link rel="icon" href="logo-matin.png" />
-    <link rel="apple-touch-icon" href="logo-matin.png" />
+    <link rel="icon" href="logo-matin.png?v=dedf6326" />
+    <link rel="apple-touch-icon" href="logo-matin.png?v=dedf6326" />
     <meta name="theme-color" content="#031f44" />
     <meta name="description" content="Matin Consulting House" />
     <title>Matin Consulting House</title>
@@ -20,13 +28,17 @@
     <!-- Original compiled app (do not edit directly) -->
     <link href="static/css/main.5662ea01.css" rel="stylesheet" />
     <script defer="defer" src="static/js/main.37a8e69e.js"></script>
-
-    <!-- Rebrand/customization layer (safe to edit) -->
-    <link href="brand-overrides.css" rel="stylesheet" />
-    <script defer="defer" src="brand-overrides.js"></script>
   </head>
   <body>
+    <div id="mch-bg-stack" class="mch-bg-stack" aria-hidden="true">
+      <div class="mch-bg-pattern"></div>
+      <div class="mch-bg-depth"></div>
+      <div class="mch-bg-scrim"></div>
+    </div>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <!-- Overrides load after #root so cascade wins over early bundles; ?v= busts cache -->
+    <link href="brand-overrides.css?v=20260326-about-bigger-home-noscroll" rel="stylesheet" />
+    <script defer="defer" src="brand-overrides.js?v=20260326-about-bigger-home-noscroll"></script>
   </body>
 </html>

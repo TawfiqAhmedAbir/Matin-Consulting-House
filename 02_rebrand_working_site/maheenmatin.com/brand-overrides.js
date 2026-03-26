@@ -2,161 +2,136 @@
   "use strict";
 
   var BRAND_NAME = "Matin Consulting House";
+  /* Bump query when replacing logo-matin.png so browsers skip stale cache */
+  var LOGO_ASSET = "logo-matin.png?v=dedf6326";
   var LINKEDIN_URL = "https://www.linkedin.com/company/matin-consulting-house/";
   var HOME_ROUTE = "/";
   var ABOUT_ROUTE = "/about";
   var PROJECTS_ROUTE = "/projects";
+  var PORTFOLIO_PUBLIC_PATH = "/portfolio";
   var CONTACT_ROUTE = "/contact";
-  var HOME_ABOUT_SECTION_ID = "mch-home-overview";
 
   var HOME_LINK_SELECTOR = ".nav-container nav a:not(.about-link):not(.projects-link):not(.contact-link)";
   var ABOUT_LINK_SELECTOR = ".nav-container nav a.about-link";
   var PROJECTS_LINK_SELECTOR = ".nav-container nav a.projects-link";
   var CONTACT_LINK_SELECTOR = ".nav-container nav a.contact-link";
-  var NAV_CONTAINER_SELECTOR = ".nav-container";
-  var MOBILE_MENU_TOGGLE_SELECTOR = ".mch-mobile-menu-toggle";
-  var MOBILE_MENU_SELECTOR = ".mch-mobile-menu";
-  var HOME_HEADING_SELECTOR = ".home-container h1";
-  var HOME_SUBTITLE_SELECTOR = ".home-container .text-zone > h2";
-  var HOME_CTA_SELECTOR = ".home-container .flat-button";
   var PROJECT_TEXT_NODES_SELECTOR = ".images-container .image-box .content *";
 
   var NAV_LABEL_HOME = "Home";
-  var NAV_LABEL_PROJECTS = "Our Work";
+  var NAV_LABEL_ABOUT = "About";
+  var NAV_LABEL_PORTFOLIO = "Portfolio";
   var NAV_LABEL_CONTACT = "Contact";
 
-  var HERO_TITLE_SECONDARY = "CONSULTING HOUSE";
-  var HERO_LABEL = "Independent consultancy for SMEs";
-  var HERO_HEADLINE = "";
-  var HERO_SUBLINE =
-    "Matin Consulting House supports SMEs across strategy and delivery, pairing data-led recommendations with the BI foundations needed to act on them.";
-  var HERO_PRIMARY_CTA = "Start a Conversation";
+  function buildNavIconSvg(innerPaths) {
+    return (
+      '<svg class="mch-nav-link-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' +
+      innerPaths +
+      "</svg>"
+    );
+  }
+
+  var SVG_NAV_HOME = buildNavIconSvg(
+    '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>'
+  );
+  var SVG_NAV_ABOUT = buildNavIconSvg(
+    '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'
+  );
+  var SVG_NAV_PORTFOLIO = buildNavIconSvg(
+    '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="2" y1="13" x2="22" y2="13"/>'
+  );
+  var SVG_NAV_CONTACT = buildNavIconSvg(
+    '<path d="M22 17V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2z"/><path d="M2 7l10 7 10-7"/>'
+  );
+
+  var HERO_HEADLINE =
+    "Independent consultancy pairing digital strategy with business intelligence for SMEs and NPOs";
+  var HERO_PRIMARY_CTA = "Start a conversation";
   var HERO_SECONDARY_CTA = "View Our Work";
+  var HERO_PRIMARY_ARIA_LABEL = "Start a conversation, opens LinkedIn in a new tab";
+  var HERO_STAGGER_SESSION_KEY = "mch_hero_stagger_seen";
 
-  var HERO_ASIDE_TITLE = "What clients can expect";
-  var HERO_ASIDE_COPY =
-    "A calm, analytical approach that connects strategic direction with the operational and reporting foundations needed to deliver.";
-  var HERO_ASIDE_POINTS = [
-    "Strategy and transformation support for growing businesses",
-    "Data-led recommendations backed by practical BI thinking",
-    "Delivery-conscious advice shaped for real team capacity"
-  ];
-  var HERO_ASIDE_NOTE = "Advisory services are offered pro bono for NPOs.";
-
-  var ABOUT_SIDE_MARKUP =
-    '<div class="mch-side-card">' +
-    "<p class=\"mch-side-card-label\">Focus areas</p>" +
-    "<h2>Where we add value</h2>" +
+  var ABOUT_MAIN_MARKUP =
+    '<section class="about about-redesign">' +
+    '<div class="about-layout">' +
+    '<header class="about-head">' +
+    '<h1 class="about-title">About Matin Consulting House</h1>' +
+    '<p class="mch-page-intro about-intro">' +
+    "Matin Consulting House is an independent consultancy supporting SMEs across strategy and delivery, turning objectives into shipped solutions. We provide data-driven recommendations and engineer the BI pipeline to fuel them. Advisory services are offered pro bono for NPOs." +
+    "</p>" +
+    "</header>" +
+    '<div class="mch-rich-copy about-body">' +
+    '<div class="about-columns">' +
+    '<article class="about-column about-card">' +
+    "<p><strong>Retained on a 6-figure, CEO-sponsored digital transformation (boutique luxury travel concierge):</strong></p>" +
     '<ul class="mch-side-list">' +
-    "<li>Strategy and transformation support</li>" +
-    "<li>Data-led recommendations and BI thinking</li>" +
-    "<li>Practical delivery planning for SMEs</li>" +
+    "<li>RevOps diagnostics and funnel insights</li>" +
+    "<li>MarTech strategy and implementation design</li>" +
+    "<li>Executive advisory and delivery governance</li>" +
     "</ul>" +
-    "</div>" +
-    '<div class="mch-side-card">' +
-    "<p class=\"mch-side-card-label\">Working style</p>" +
-    "<h2>How we operate</h2>" +
+    "</article>" +
+    '<article class="about-column about-card">' +
+    "<p><strong>Pro bono advisory for Aspierations (CIC for autistic professionals):</strong></p>" +
     '<ul class="mch-side-list">' +
-    "<li>Structured thinking without unnecessary complexity</li>" +
-    "<li>Measured communication and realistic sequencing</li>" +
-    "<li>Long-term usefulness over short-term theatre</li>" +
+    "<li>5-figure GTM strategy and revenue forecasting</li>" +
+    "<li>Market positioning and operational cost modelling</li>" +
     "</ul>" +
-    "</div>" +
-    '<div class="mch-side-card mch-side-card-accent">' +
-    "<p class=\"mch-side-card-label\">Client fit</p>" +
-    "<h2>Best suited to teams that need clarity and delivery discipline.</h2>" +
-    "<p>We work particularly well with organisations looking to connect strategic intent with decisions, reporting, and implementation.</p>" +
-    '<a class="mch-button mch-button-secondary" href="' +
-    LINKEDIN_URL +
-    '" target="_blank" rel="noreferrer">Connect on LinkedIn</a>' +
-    "</div>";
-
-  var HOME_SECTIONS_MARKUP =
-    '<section class="mch-section mch-section-services" id="' +
-    HOME_ABOUT_SECTION_ID +
-    '" aria-labelledby="mch-services-title">' +
-    '<div class="mch-section-heading mch-section-heading-wide">' +
-    '<p class="mch-section-label">What we do</p>' +
-    '<h2 id="mch-services-title">Independent consulting for SMEs that need clearer direction, stronger data, and steadier delivery.</h2>' +
-    '<p class="mch-section-copy">We help teams turn objectives into practical decisions, stronger reporting, and shipped work.</p>' +
-    '<div class="mch-rich-copy mch-home-overview-copy">' +
-    '<p>Our work combines advisory thinking with practical follow-through, shaped for the pace and capacity of growing organisations.</p>' +
-    "</div>" +
-    '<div class="mch-inline-note mch-home-overview-note">' +
-    '<span class="mch-inline-note-label">Approach</span>' +
-    '<p>Clear framing, evidence-led thinking, and recommendations designed to be used.</p>' +
-    "</div>" +
-    "</div>" +
-    "</section>" +
-    '<section class="mch-section mch-section-approach" aria-labelledby="mch-approach-title">' +
-    '<div class="mch-section-heading">' +
-    '<p class="mch-section-label">Strategy / Data / Execution</p>' +
-    '<h2 id="mch-approach-title">A connected model from decision to delivery.</h2>' +
-    "</div>" +
-    '<div class="mch-card-grid mch-card-grid-compact">' +
-    '<article class="mch-card">' +
-    '<p class="mch-card-label">Strategy</p>' +
-    "<h3>Clarify priorities</h3>" +
-    "<p>Frame the decision, align priorities, and sequence work realistically.</p>" +
-    "</article>" +
-    '<article class="mch-card">' +
-    '<p class="mch-card-label">Data</p>' +
-    "<h3>Support better decisions</h3>" +
-    "<p>Use reporting and BI thinking to make insight dependable and usable.</p>" +
-    "</article>" +
-    '<article class="mch-card">' +
-    '<p class="mch-card-label">Execution</p>' +
-    "<h3>Turn plans into delivery</h3>" +
-    "<p>Translate recommendations into scoped actions, momentum, and delivery discipline.</p>" +
     "</article>" +
     "</div>" +
-    "</section>" +
-    '<section class="mch-section mch-section-value" aria-labelledby="mch-value-title">' +
-    '<div class="mch-section-heading">' +
-    '<p class="mch-section-label">Why clients work with us</p>' +
-    '<h2 id="mch-value-title">Structured support without unnecessary process.</h2>' +
-    "</div>" +
-    '<div class="mch-approach-grid mch-approach-grid-compact">' +
-    '<article class="mch-approach-step"><span class="mch-step-number">01</span><h3>Practical recommendations</h3><p>Advice is shaped around delivery constraints, not abstract frameworks.</p></article>' +
-    '<article class="mch-approach-step"><span class="mch-step-number">02</span><h3>Measured progress</h3><p>We focus on clear priorities, usable outputs, and decisions that can be acted on.</p></article>' +
-    '<article class="mch-approach-step"><span class="mch-step-number">03</span><h3>Steady partnership</h3><p>Clients get composed thinking, direct communication, and a bias toward execution.</p></article>' +
-    "</div>" +
-    "</section>" +
-    '<section class="mch-section mch-section-npo" aria-labelledby="mch-npo-title">' +
-    '<div class="mch-highlight-panel">' +
-    '<p class="mch-section-label">For NPOs</p>' +
-    '<h2 id="mch-npo-title">Pro bono advisory is available for non-profit organisations.</h2>' +
-    '<p>Where there is a strong fit, advisory support can be offered pro bono to help mission-led organisations access clear thinking across strategy and delivery.</p>' +
-    "</div>" +
-    "</section>" +
-    '<section class="mch-section mch-section-cta" aria-labelledby="mch-cta-title">' +
-    '<div class="mch-cta-panel">' +
-    '<div class="mch-cta-copy">' +
-    '<p class="mch-section-label">Start the conversation</p>' +
-    '<h2 id="mch-cta-title">Discuss your objectives with Matin Consulting House.</h2>' +
-    '<p>If you are looking for strategic clarity, stronger reporting foundations, or support moving from plan to execution, connect on LinkedIn.</p>' +
-    "</div>" +
-    '<div class="mch-cta-actions">' +
-    '<a class="mch-button mch-button-primary" href="' +
-    LINKEDIN_URL +
-    '" target="_blank" rel="noreferrer">Start a Conversation</a>' +
-    '<a class="mch-button mch-button-secondary" href="/contact" data-mch-route="/contact">Contact Page</a>' +
+    '<p class="about-footnote">Additional engagements: NHS (Royal Free London) and Bright Futures (with UCL Research Consultancy Clinic)</p>' +
     "</div>" +
     "</div>" +
     "</section>";
 
-  var ABOUT_MAIN_MARKUP =
-    "<h1>About Matin Consulting House</h1>" +
-    '<p class="mch-page-intro">Independent consulting for SMEs that need clearer direction, stronger data, and steadier delivery.</p>' +
-    '<div class="mch-rich-copy">' +
-    "<p>Matin Consulting House supports growing businesses across strategy and delivery, helping teams move from ambition to implementation with sharper priorities and more dependable execution.</p>" +
-    "<p>Our work combines advisory thinking with practical follow-through. Recommendations are informed by delivery reality, and data work includes the BI and reporting foundations that make insight useful in day-to-day decision-making.</p>" +
-    "<p>We are best suited to organisations that want calm, rigorous support, concise communication, and solutions proportionate to the pace and scale of the business.</p>" +
-    "</div>" +
-    '<div class="mch-inline-note">' +
-    '<span class="mch-inline-note-label">Approach</span>' +
-    "<p>Clear framing, evidence-led thinking, and recommendations designed to be used rather than admired.</p>" +
-    "</div>";
+  /* Appended last to <head> so it wins over CRA/style-in-JS that loads after brand-overrides.css */
+  /* About redesign typography tuned for one-screen fit */
+  var ABOUT_TYPOGRAPHY_LAYER_CSS =
+    "#about-text-zone.mch-about-tuned .about-title{font-size:clamp(2.35rem,4vw,3.15rem)!important;line-height:1.15!important;margin:0!important;text-align:center!important;white-space:normal!important;overflow-wrap:break-word!important;word-wrap:break-word!important;max-width:100%!important;box-sizing:border-box!important}" +
+    "#about-text-zone.mch-about-tuned .about-intro{font-size:clamp(1.2rem,1.75vw,1.56rem)!important;line-height:1.5!important;margin:0 auto!important;max-width:58rem!important}" +
+    "#about-text-zone.mch-about-tuned .about-card>p{font-size:clamp(1.12rem,1.44vw,1.34rem)!important;line-height:1.42!important;margin:0 0 .55rem!important}" +
+    "#about-text-zone.mch-about-tuned .about-card li{font-size:clamp(1.04rem,1.24vw,1.2rem)!important;line-height:1.4!important}" +
+    "#about-text-zone.mch-about-tuned .about-footnote{font-size:clamp(1.04rem,1.2vw,1.24rem)!important;line-height:1.42!important;margin:0 auto!important;max-width:60rem!important;text-align:center!important}" +
+    "#about-text-zone.mch-about-tuned .about-card .mch-side-list li::before{width:7px!important;height:7px!important;top:.58em!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-title{font-size:clamp(1.82rem,3.15vmin,2.45rem)!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-intro{font-size:clamp(1rem,1.72vmin,1.2rem)!important;line-height:1.42!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-card>p{font-size:clamp(.96rem,1.46vmin,1.12rem)!important;line-height:1.34!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-card li{font-size:clamp(.9rem,1.28vmin,1.04rem)!important;line-height:1.28!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-footnote{font-size:clamp(.88rem,1.2vmin,1.02rem)!important;line-height:1.32!important}" +
+    "@media (max-width:768px){" +
+    "#about-text-zone.mch-about-tuned .about-title{font-size:clamp(1.96rem,6vw,2.66rem)!important}" +
+    "#about-text-zone.mch-about-tuned .about-intro{font-size:clamp(1.04rem,3.7vw,1.24rem)!important}" +
+    "#about-text-zone.mch-about-tuned .about-card>p{font-size:clamp(.96rem,3.35vw,1.16rem)!important}" +
+    "#about-text-zone.mch-about-tuned .about-card li{font-size:clamp(.9rem,3.1vw,1.08rem)!important}" +
+    "#about-text-zone.mch-about-tuned .about-footnote{font-size:clamp(.9rem,3vw,1.06rem)!important}" +
+    "}" +
+    "@media (max-height:700px){" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-title{font-size:clamp(1.54rem,2.65vmin,2.08rem)!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-intro{font-size:clamp(.88rem,1.45vmin,1.04rem)!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-card>p{font-size:clamp(.84rem,1.22vmin,.98rem)!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-card li{font-size:clamp(.78rem,1.1vmin,.92rem)!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-footnote{font-size:clamp(.78rem,1.06vmin,.9rem)!important}" +
+    "}";
+
+  /* Grid + spacing layer: compact, centered, and single-screen friendly */
+  var ABOUT_LAYOUT_LAYER_CSS =
+    "html.mch-about-one-screen #root{display:flex!important;flex-direction:column!important}" +
+    "html.mch-about-one-screen #root>*{flex:1 1 0!important;min-height:0!important;display:flex!important;flex-direction:column!important}" +
+    "html.mch-about-one-screen .page.mch-page-about{margin-top:var(--mch-nav-height)!important;padding:0!important;min-height:calc(100dvh - var(--mch-nav-height))!important;max-height:calc(100dvh - var(--mch-nav-height))!important;height:calc(100dvh - var(--mch-nav-height))!important;display:flex!important;justify-content:flex-start!important;align-items:center!important;overflow:hidden!important}" +
+    "html.mch-about-one-screen .page.mch-page-about .mch-about-shell{flex:1 1 0!important;min-height:0!important;width:100%!important;max-width:100%!important;display:flex!important;flex-direction:column!important;justify-content:flex-start!important;align-items:center!important;padding:clamp(2px,.7dvh,9px) clamp(10px,2.2vw,18px)!important;gap:0!important;overflow:hidden!important}" +
+    "html.mch-about-one-screen .mch-page-about .mch-about-shell #about-text-zone{flex:1 1 0!important;min-height:0!important;width:100%!important;max-width:min(72rem,96vw)!important;overflow:hidden!important;padding:clamp(2px,.7dvh,8px) 0 clamp(8px,1.3dvh,14px)!important;text-align:center!important}" +
+    "#about-text-zone.mch-about-tuned .about-layout{display:grid!important;grid-template-columns:1fr!important;row-gap:clamp(12px,1.8vh,18px)!important;column-gap:0!important;justify-items:center!important;align-items:start!important;max-width:min(74rem,100%)!important;margin:0 auto!important;width:100%!important;min-width:0!important}" +
+    "#about-text-zone.mch-about-tuned .about-head{display:grid!important;gap:clamp(10px,1.4vh,16px)!important;justify-items:center!important;width:100%!important}" +
+    "#about-text-zone.mch-about-tuned .about-body{display:grid!important;gap:clamp(10px,1.4vh,16px)!important;justify-items:center!important;width:100%!important}" +
+    "#about-text-zone.mch-about-tuned .about-columns{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:clamp(12px,2.2vw,22px)!important;width:100%!important;max-width:min(66rem,100%)!important;margin:0 auto!important;align-items:stretch!important}" +
+    "#about-text-zone.mch-about-tuned .about-card{display:flex!important;flex-direction:column!important;gap:clamp(7px,1.1vh,12px)!important;padding:clamp(12px,1.7vh,18px) clamp(14px,2.2vw,20px)!important;border:1px solid rgba(243,232,211,.16)!important;border-radius:16px!important;background:linear-gradient(180deg,rgba(9,30,60,.34),rgba(6,21,43,.46))!important;text-align:left!important}" +
+    "#about-text-zone.mch-about-tuned .about-card .mch-side-list{margin:.15rem 0 0!important;padding-left:1.05rem!important;text-align:left!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-layout{row-gap:clamp(6px,.95vh,10px)!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-head{gap:clamp(5px,.78vh,8px)!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-body{gap:clamp(6px,.9vh,10px)!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-columns{gap:clamp(6px,1.15vw,10px)!important}" +
+    "html.mch-about-one-screen #about-text-zone.mch-about-tuned .about-card{padding:clamp(7px,1vh,10px) clamp(9px,1.2vw,12px)!important;border-radius:12px!important}" +
+    "@media (max-width:768px){" +
+    "#about-text-zone.mch-about-tuned .about-columns{grid-template-columns:1fr!important;gap:clamp(16px,2.5vh,24px)!important}" +
+    "}";
 
   var CONTACT_MAIN_MARKUP =
     "<h1>Contact Us</h1>" +
@@ -169,7 +144,7 @@
     '<a class="mch-button mch-button-primary" href="' +
     LINKEDIN_URL +
     '" target="_blank" rel="noreferrer">Start a Conversation</a>' +
-    '<a class="mch-button mch-button-secondary" href="/" data-mch-route="/" data-mch-scroll-target="mch-home-overview">Learn More About Us</a>' +
+    '<a class="mch-button mch-button-secondary" href="/" data-mch-route="/">Learn More About Us</a>' +
     "</div>";
 
   var CONTACT_SIDE_MARKUP =
@@ -188,14 +163,27 @@
     '<div class="mch-mobile-menu__backdrop" data-close="1"></div>' +
     '<div class="mch-mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">' +
     '<button type="button" class="mch-mobile-menu__close" aria-label="Close navigation" data-close="1">&times;</button>' +
-    '<a class="mch-mobile-menu__link mch-mobile-menu__link--home" href="/" data-route="/">Home</a>' +
-    '<a class="mch-mobile-menu__link mch-mobile-menu__link--projects" href="/projects" data-route="/projects">Our Work</a>' +
-    '<a class="mch-mobile-menu__link mch-mobile-menu__link--contact" href="/contact" data-route="/contact">Contact</a>' +
+    '<a class="mch-mobile-menu__link" href="/" data-route="/"><span class="mch-nav-link-icon-wrap" aria-hidden="true">' +
+    SVG_NAV_HOME +
+    '</span><span class="mch-nav-link-text">' +
+    NAV_LABEL_HOME +
+    "</span></a>" +
+    '<a class="mch-mobile-menu__link" href="/about" data-route="/about"><span class="mch-nav-link-icon-wrap" aria-hidden="true">' +
+    SVG_NAV_ABOUT +
+    '</span><span class="mch-nav-link-text">About</span></a>' +
+    '<a class="mch-mobile-menu__link" href="' +
+    PORTFOLIO_PUBLIC_PATH +
+    '" data-route="' +
+    PROJECTS_ROUTE +
+    '"><span class="mch-nav-link-icon-wrap" aria-hidden="true">' +
+    SVG_NAV_PORTFOLIO +
+    '</span><span class="mch-nav-link-text">Portfolio</span></a>' +
+    '<a class="mch-mobile-menu__link" href="/contact" data-route="/contact"><span class="mch-nav-link-icon-wrap" aria-hidden="true">' +
+    SVG_NAV_CONTACT +
+    '</span><span class="mch-nav-link-text">Contact</span></a>' +
     "</div>";
 
-  var brandMarkMarkup = "";
   var scheduled = false;
-  var heroSyncScheduled = false;
 
   function query(selector, root) {
     return (root || document).querySelector(selector);
@@ -223,25 +211,6 @@
     }
   }
 
-  function ensureElement(tagName, className, parent, beforeNode) {
-    if (!parent) return null;
-
-    var selector = className ? "." + className.split(" ").join(".") : tagName;
-    var existing = query(selector, parent);
-    if (existing) return existing;
-
-    var el = document.createElement(tagName);
-    if (className) el.className = className;
-
-    if (beforeNode && beforeNode.parentNode === parent) {
-      parent.insertBefore(el, beforeNode);
-    } else {
-      parent.appendChild(el);
-    }
-
-    return el;
-  }
-
   function setAttrs(el, attrs) {
     if (!el || !attrs) return;
     Object.keys(attrs).forEach(function (key) {
@@ -255,8 +224,10 @@
   }
 
   function routeSelectorFor(route) {
-    if (route === ABOUT_ROUTE) return HOME_LINK_SELECTOR;
-    if (route === PROJECTS_ROUTE) return PROJECTS_LINK_SELECTOR;
+    if (route === ABOUT_ROUTE) return ABOUT_LINK_SELECTOR;
+    if (route === PROJECTS_ROUTE || route === PORTFOLIO_PUBLIC_PATH) {
+      return PROJECTS_LINK_SELECTOR;
+    }
     if (route === CONTACT_ROUTE) return CONTACT_LINK_SELECTOR;
     return HOME_LINK_SELECTOR;
   }
@@ -340,14 +311,12 @@
     });
   }
 
-  function ensureMainNavTextLink(link, label) {
+  function ensureMainNavLink(link, label, iconSvgString) {
     if (!link) return;
 
-    var svg = link.querySelector("svg");
-    if (svg) {
-      svg.style.display = "none";
-      svg.setAttribute("aria-hidden", "true");
-    }
+    queryAll("svg", link).forEach(removeEl);
+    var oldWrap = link.querySelector(".mch-nav-link-icon-wrap");
+    if (oldWrap) removeEl(oldWrap);
 
     var labelEl = link.querySelector(".mch-nav-link-text");
     if (!labelEl) {
@@ -358,26 +327,75 @@
 
     setText(labelEl, label);
     link.setAttribute("data-label", label);
+
+    var wrapHtml =
+      '<span class="mch-nav-link-icon-wrap" aria-hidden="true">' + iconSvgString + "</span>";
+    labelEl.insertAdjacentHTML("beforebegin", wrapHtml);
   }
 
   function ensureNavBrand() {
     var logo = query(".nav-container .logo");
     if (!logo) return;
 
-    var markup =
-      '<img class="mch-nav-logo" src="logo-matin.png" alt="' + BRAND_NAME + '">';
-
-    if (logo.innerHTML !== markup) {
-      logo.innerHTML = markup;
-    }
+    logo.innerHTML = "";
 
     setAttrs(logo, {
-      "aria-label": BRAND_NAME
+      "aria-hidden": "true",
+      tabindex: "-1",
+      "aria-label": null
     });
   }
 
+  function applyHeroStaggerPreference() {
+    try {
+      if (window.sessionStorage && sessionStorage.getItem(HERO_STAGGER_SESSION_KEY) === "1") {
+        document.documentElement.classList.add("mch-hero-skip-entrance");
+      }
+    } catch (err) {
+      /* storage unavailable */
+    }
+  }
+
+  function markHeroStaggerSeenIfHome() {
+    if (window.location.pathname !== HOME_ROUTE) return;
+    try {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        if (window.sessionStorage) sessionStorage.setItem(HERO_STAGGER_SESSION_KEY, "1");
+        document.documentElement.classList.add("mch-hero-skip-entrance");
+        return;
+      }
+      if (window.sessionStorage && sessionStorage.getItem(HERO_STAGGER_SESSION_KEY) === "1") {
+        return;
+      }
+      window.setTimeout(function () {
+        try {
+          if (window.sessionStorage) sessionStorage.setItem(HERO_STAGGER_SESSION_KEY, "1");
+        } catch (e) {
+          /* ignore */
+        }
+        document.documentElement.classList.add("mch-hero-skip-entrance");
+      }, 850);
+    } catch (err) {
+      /* ignore */
+    }
+  }
+
+  function primaryCtaInnerHTML() {
+    return (
+      '<span class="mch-hero-btn__label">' +
+      HERO_PRIMARY_CTA +
+      "</span>" +
+      '<span class="mch-hero-btn__icon" aria-hidden="true">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" focusable="false">' +
+      '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>' +
+      '<polyline points="15 3 21 3 21 9"/>' +
+      '<line x1="10" y1="14" x2="21" y2="3"/>' +
+      "</svg></span>"
+    );
+  }
+
   function ensureMobileMenuToggle(navContainer) {
-    var toggle = query(MOBILE_MENU_TOGGLE_SELECTOR);
+    var toggle = query(".mch-mobile-menu-toggle");
     if (!toggle) {
       toggle = document.createElement("button");
       toggle.type = "button";
@@ -404,7 +422,7 @@
   }
 
   function ensureMobileMenu() {
-    var menu = query(MOBILE_MENU_SELECTOR);
+    var menu = query(".mch-mobile-menu");
     if (!menu) {
       menu = document.createElement("div");
       menu.className = "mch-mobile-menu";
@@ -442,282 +460,115 @@
   }
 
   function updateNavigation() {
-    var navContainer = query(NAV_CONTAINER_SELECTOR);
+    var navContainer = query(".nav-container");
     if (!navContainer) return;
 
     ensureNavBrand();
-    ensureMainNavTextLink(query(HOME_LINK_SELECTOR), NAV_LABEL_HOME);
-    ensureMainNavTextLink(query(PROJECTS_LINK_SELECTOR), NAV_LABEL_PROJECTS);
-    ensureMainNavTextLink(query(CONTACT_LINK_SELECTOR), NAV_LABEL_CONTACT);
 
-    removeEl(query(ABOUT_LINK_SELECTOR));
+    var homeLink = query(HOME_LINK_SELECTOR);
+    if (homeLink) {
+      homeLink.classList.remove("mch-nav-home-hidden");
+      homeLink.removeAttribute("tabindex");
+      homeLink.removeAttribute("aria-hidden");
+      ensureMainNavLink(homeLink, NAV_LABEL_HOME, SVG_NAV_HOME);
+    }
+
+    ensureMainNavLink(query(ABOUT_LINK_SELECTOR), NAV_LABEL_ABOUT, SVG_NAV_ABOUT);
+    ensureMainNavLink(query(PROJECTS_LINK_SELECTOR), NAV_LABEL_PORTFOLIO, SVG_NAV_PORTFOLIO);
+    ensureMainNavLink(query(CONTACT_LINK_SELECTOR), NAV_LABEL_CONTACT, SVG_NAV_CONTACT);
+
     removeEl(query(".nav-container .external-links"));
 
     bindMobileMenuToggle(ensureMobileMenuToggle(navContainer));
     bindMobileMenu(ensureMobileMenu());
   }
 
-  function getBrandMarkMarkup() {
-    if (brandMarkMarkup) return brandMarkMarkup;
-
-    var source = query("#logo-svg");
-    if (!source) return "";
-
-    var clone = source.cloneNode(true);
-    clone.removeAttribute("id");
-    clone.classList.add("mch-brand-mark-svg");
-
-    var shadow = clone.querySelector("#shadow");
-    if (shadow) {
-      shadow.classList.add("mch-brand-shadow");
-      shadow.removeAttribute("id");
-    }
-
-    var letter = clone.querySelector("#letter");
-    if (letter) {
-      letter.classList.add("mch-brand-letter");
-      letter.removeAttribute("id");
-    }
-
-    brandMarkMarkup = clone.outerHTML;
-    return brandMarkMarkup;
-  }
-
-  function ensureHeroTitleStructure(heading) {
-    if (!heading) return;
-
-    var primary = heading.querySelector(".mch-title-primary");
-    if (!primary) {
-      heading.innerHTML =
-        '<span class="mch-title-primary">' +
-        '<span class="mch-logo-rest">Matin</span>' +
-        "</span>" +
-        '<span class="mch-title-secondary">' +
-        HERO_TITLE_SECONDARY +
-        "</span>";
-      primary = heading.querySelector(".mch-title-primary");
-    }
-
-    heading.classList.add("mch-hero-title");
-    setText(primary.querySelector(".mch-logo-rest") || primary, "Matin");
-    setText(heading.querySelector(".mch-title-secondary"), HERO_TITLE_SECONDARY);
-  }
-
-  function syncHeroWordmarkWidth(heading) {
-    if (!heading) return;
-
-    var primary = heading.querySelector(".mch-title-primary");
-    var secondary = heading.querySelector(".mch-title-secondary");
-    if (!primary || !secondary) return;
-
-    var measured = Math.ceil(primary.getBoundingClientRect().width);
-    if (!measured) return;
-
-    var target = measured + 18;
-    secondary.style.width = target + "px";
-    secondary.style.minWidth = target + "px";
-    secondary.style.maxWidth = target + "px";
-
-    var secondaryText = (secondary.textContent || "").trim();
-    if (secondaryText.length > 1) {
-      var style = window.getComputedStyle(secondary);
-      var probe = document.createElement("span");
-      probe.textContent = secondaryText;
-      probe.style.position = "absolute";
-      probe.style.visibility = "hidden";
-      probe.style.whiteSpace = "nowrap";
-      probe.style.fontFamily = style.fontFamily;
-      probe.style.fontSize = style.fontSize;
-      probe.style.fontWeight = style.fontWeight;
-      probe.style.letterSpacing = "0px";
-      probe.style.textTransform = style.textTransform;
-      document.body.appendChild(probe);
-
-      var naturalTextWidth = Math.ceil(probe.getBoundingClientRect().width);
-      probe.remove();
-      if (!naturalTextWidth) return;
-
-      var charGaps = Math.max(1, secondaryText.length - 1);
-      var desiredTextWidth = target - 2;
-      var nextSpacing = (desiredTextWidth - naturalTextWidth) / charGaps;
-      if (nextSpacing < 3.8) nextSpacing = 3.8;
-      if (nextSpacing > 8.4) nextSpacing = 8.4;
-      secondary.style.letterSpacing = nextSpacing.toFixed(2) + "px";
-    }
-  }
-
-  function scheduleHeroWordmarkSync(heading) {
-    if (!heading || heroSyncScheduled) return;
-    heroSyncScheduled = true;
-    window.requestAnimationFrame(function () {
-      heroSyncScheduled = false;
-      syncHeroWordmarkWidth(heading);
-    });
-  }
-
-  function ensureHeroBrand(textZone, heading) {
-    if (!textZone || !heading) return null;
-
-    var brand = ensureElement("div", "mch-hero-brand", textZone, heading);
-    var markShell = ensureElement("div", "mch-brand-mark-shell", brand);
-    var wordmarkShell = ensureElement("div", "mch-wordmark-shell", brand);
-
-    if (!markShell.innerHTML) {
-      setHTML(markShell, getBrandMarkMarkup());
-    }
-
-    if (heading.parentElement !== wordmarkShell) {
-      wordmarkShell.appendChild(heading);
-    }
-
-    return brand;
-  }
-
-  function ensureHomeValueProp(zone, cta) {
-    if (!zone || !cta) return null;
-
-    var valueProp = query(".mch-value-prop", zone);
-    if (!valueProp) {
-      valueProp = document.createElement("div");
-      valueProp.className = "mch-value-prop";
-      valueProp.innerHTML =
-        '<p class="mch-hero-label"></p>' +
-        '<h2 class="mch-headline"></h2>' +
-        '<p class="mch-subline"></p>';
-      zone.insertBefore(valueProp, cta);
-    }
-
-    return valueProp;
-  }
-
-  function ensureHeroWordmark(zone, beforeNode) {
-    if (!zone) return null;
-
-    var wordmark = query(".mch-hero-wordmark", zone);
-    if (!wordmark) {
-      wordmark = document.createElement("div");
-      wordmark.className = "mch-hero-wordmark";
-      wordmark.innerHTML =
-        '<span class="mch-hero-wordmark-primary">Matin</span>' +
-        '<span class="mch-hero-wordmark-secondary">Consulting House</span>';
-      if (beforeNode && beforeNode.parentNode === zone) {
-        zone.insertBefore(wordmark, beforeNode);
-      } else {
-        zone.insertBefore(wordmark, zone.firstChild);
-      }
-    }
-
-    setAttrs(wordmark, {
-      "aria-label": BRAND_NAME
-    });
-
-    return wordmark;
-  }
-
-  function ensureHeroActions(zone, primaryAction) {
-    if (!zone || !primaryAction) return null;
-
-    var actions = query(".mch-hero-actions", zone);
-    if (!actions) {
-      actions = document.createElement("div");
-      actions.className = "mch-hero-actions";
-      zone.insertBefore(actions, primaryAction.nextSibling);
-    }
-
-    if (primaryAction.parentElement !== actions) {
-      actions.appendChild(primaryAction);
-    }
-
-    var secondaryAction = query(".mch-secondary-cta", actions);
-    if (!secondaryAction) {
-      secondaryAction = document.createElement("a");
-      secondaryAction.className = "mch-button mch-button-secondary mch-secondary-cta";
-      secondaryAction.href = PROJECTS_ROUTE;
-      secondaryAction.setAttribute("data-mch-route", PROJECTS_ROUTE);
-      actions.appendChild(secondaryAction);
-    }
-
-    setText(secondaryAction, HERO_SECONDARY_CTA);
-    return actions;
-  }
-
-  function ensureHeroAside(container) {
-    if (!container) return;
-
-    var markup =
-      '<div class="mch-hero-aside-card">' +
-      "<h2>" +
-      HERO_ASIDE_TITLE +
-      "</h2>" +
-      "<p>" +
-      HERO_ASIDE_COPY +
-      "</p>" +
-      '<div class="mch-hero-aside-points">' +
-      HERO_ASIDE_POINTS.map(function (point) {
-        return '<div class="mch-hero-point"><span class="mch-hero-point-marker"></span><p>' + point + "</p></div>";
-      }).join("") +
+  function buildHomeHeroMarkup() {
+    return (
+      '<div class="mch-hero-stack">' +
+      '<div class="mch-hero-logo-wrap">' +
+      '<img class="mch-hero-logo" src="' +
+      LOGO_ASSET +
+      '" alt="' +
+      BRAND_NAME.replace(/"/g, "&quot;") +
+      '" />' +
       "</div>" +
-      '<div class="mch-hero-aside-note">' +
-      HERO_ASIDE_NOTE +
-      "</div>" +
-      "</div>";
-
-    container.classList.add("mch-hero-aside");
-    setHTML(container, markup);
+      '<h1 class="mch-hero-headline">' +
+      HERO_HEADLINE +
+      "</h1>" +
+      '<div class="mch-hero-buttons">' +
+      '<a class="mch-hero-btn mch-hero-btn--primary" href="' +
+      LINKEDIN_URL +
+      '" target="_blank" rel="noopener noreferrer" aria-label="' +
+      HERO_PRIMARY_ARIA_LABEL.replace(/"/g, "&quot;") +
+      '">' +
+      primaryCtaInnerHTML() +
+      "</a>" +
+      '<a class="mch-hero-btn mch-hero-btn--secondary" href="' +
+      PORTFOLIO_PUBLIC_PATH +
+      '" data-mch-route="' +
+      PROJECTS_ROUTE +
+      '">' +
+      HERO_SECONDARY_CTA +
+      "</a>" +
+      "</div></div>"
+    );
   }
 
   function updateHome() {
     var page = query(".page.home");
     var container = query(".home-container");
     var textZone = query(".home-container .text-zone");
-    var heading = query(HOME_HEADING_SELECTOR);
-    var subtitle = query(HOME_SUBTITLE_SELECTOR);
-    var primaryAction = query(HOME_CTA_SELECTOR);
 
-    if (!page || !container || !textZone || !heading || !primaryAction) return;
+    if (!page || !container || !textZone) return;
 
     page.classList.add("mch-page-home");
     container.classList.add("mch-home-hero");
 
-    removeEl(query(".mch-hero-brand", textZone));
-    if (subtitle) subtitle.style.display = "none";
-
-    var valueProp = ensureHomeValueProp(textZone, primaryAction);
-    ensureHeroWordmark(textZone, valueProp);
-
-    removeEl(heading);
-
-    if (valueProp) {
-      setText(query(".mch-hero-label", valueProp), HERO_LABEL);
-      var heroHeadline = query(".mch-headline", valueProp);
-      if (heroHeadline) {
-        if (HERO_HEADLINE) {
-          setText(heroHeadline, HERO_HEADLINE);
-          heroHeadline.style.display = "";
-        } else {
-          heroHeadline.style.display = "none";
-        }
-      }
-      setText(query(".mch-subline", valueProp), HERO_SUBLINE);
-    }
-
-    primaryAction.className = "mch-button mch-button-primary flat-button";
-    primaryAction.href = LINKEDIN_URL;
-    primaryAction.target = "_blank";
-    primaryAction.rel = "noreferrer";
-    setText(primaryAction, HERO_PRIMARY_CTA);
-
-    ensureHeroActions(textZone, primaryAction);
-
-    Array.prototype.slice.call(container.children).forEach(function (child) {
+    Array.from(container.children).forEach(function (child) {
       if (child !== textZone) removeEl(child);
     });
 
-    var sections = ensureElement("div", "mch-home-sections", page);
-    setHTML(sections, HOME_SECTIONS_MARKUP);
+    if (!query(".mch-hero-stack", textZone)) {
+      setHTML(textZone, buildHomeHeroMarkup());
+    } else {
+      removeEl(query(".mch-hero-company", textZone));
+      var stack = query(".mch-hero-stack", textZone);
+      var heroLogo = stack && query(".mch-hero-logo", stack);
+      if (heroLogo && heroLogo.getAttribute("src") !== LOGO_ASSET) {
+        heroLogo.setAttribute("src", LOGO_ASSET);
+      }
+      if (heroLogo && !query(".mch-hero-logo-wrap", stack) && heroLogo.parentNode === stack) {
+        var logoWrap = document.createElement("div");
+        logoWrap.className = "mch-hero-logo-wrap";
+        stack.insertBefore(logoWrap, heroLogo);
+        logoWrap.appendChild(heroLogo);
+      }
+      setText(query(".mch-hero-headline", textZone), HERO_HEADLINE);
+      var primaryBtn = query(".mch-hero-btn--primary", textZone);
+      var secondaryBtn = query(".mch-hero-btn--secondary", textZone);
+      if (primaryBtn) {
+        primaryBtn.innerHTML = primaryCtaInnerHTML();
+        setAttrs(primaryBtn, {
+          href: LINKEDIN_URL,
+          target: "_blank",
+          rel: "noopener noreferrer",
+          "aria-label": HERO_PRIMARY_ARIA_LABEL
+        });
+      }
+      if (secondaryBtn) {
+        setText(secondaryBtn, HERO_SECONDARY_CTA);
+        setAttrs(secondaryBtn, { href: PORTFOLIO_PUBLIC_PATH });
+        secondaryBtn.setAttribute("data-mch-route", PROJECTS_ROUTE);
+      }
+    }
+
+    queryAll(".mch-home-sections").forEach(removeEl);
   }
 
   function updateAbout() {
+    if (normalizePathname() !== ABOUT_ROUTE) return;
+
     var aboutText = query("#about-text-zone");
     if (!aboutText) return;
 
@@ -727,10 +578,32 @@
 
     if (page) page.classList.add("mch-page-about");
     if (container) container.classList.add("mch-about-shell");
-    if (side) side.className = "mch-about-side";
+    /* Remove legacy right rail (cube / social icons); content uses full shell width */
+    if (side) removeEl(side);
 
-    setHTML(aboutText, ABOUT_MAIN_MARKUP);
-    if (side) setHTML(side, ABOUT_SIDE_MARKUP);
+    aboutText.classList.add("mch-about-tuned");
+    /* React can replace this node after we run; only write when our structure is missing (avoids innerHTML === string churn). */
+    if (!aboutText.querySelector(".about-layout")) {
+      aboutText.innerHTML = ABOUT_MAIN_MARKUP;
+    }
+  }
+
+  function scheduleAboutReconcile() {
+    if (normalizePathname() !== ABOUT_ROUTE) return;
+
+    function tick() {
+      if (normalizePathname() !== ABOUT_ROUTE) return;
+      updateAbout();
+      syncAboutTypographyLayer();
+    }
+
+    window.queueMicrotask(tick);
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(tick);
+    });
+    [0, 40, 120, 280, 600, 1400].forEach(function (ms) {
+      window.setTimeout(tick, ms);
+    });
   }
 
   function updateProjects() {
@@ -742,7 +615,7 @@
     container.classList.add("mch-projects-shell");
 
     var heading = query("h1", container);
-    setText(heading, NAV_LABEL_PROJECTS);
+    setText(heading, NAV_LABEL_PORTFOLIO);
 
     var intro = query(".mch-projects-intro", container);
     if (!intro) {
@@ -795,11 +668,44 @@
     }
   }
 
-  function redirectAboutRouteIfNeeded() {
-    if (window.location.pathname !== ABOUT_ROUTE) return false;
+  function normalizePathname() {
+    var p = window.location.pathname || "/";
+    while (p.length > 1 && p.charAt(p.length - 1) === "/") {
+      p = p.slice(0, -1);
+    }
+    return p || "/";
+  }
 
-    window.location.replace(HOME_ROUTE + "#" + HOME_ABOUT_SECTION_ID);
-    return true;
+  function syncAboutOneScreenClass() {
+    document.documentElement.classList.toggle(
+      "mch-about-one-screen",
+      normalizePathname() === ABOUT_ROUTE
+    );
+  }
+
+  function syncHomeOneScreenClass() {
+    document.documentElement.classList.toggle(
+      "mch-home-one-screen",
+      normalizePathname() === HOME_ROUTE
+    );
+  }
+
+  function syncAboutTypographyLayer() {
+    var id = "mch-about-type-layer";
+    var onAbout = normalizePathname() === ABOUT_ROUTE;
+    var zone = query("#about-text-zone");
+    var existing = document.getElementById(id);
+    if (!onAbout || !zone) {
+      if (existing) existing.remove();
+      return;
+    }
+    var st = existing;
+    if (!st) {
+      st = document.createElement("style");
+      st.id = id;
+    }
+    st.textContent = ABOUT_TYPOGRAPHY_LAYER_CSS + ABOUT_LAYOUT_LAYER_CSS;
+    document.head.appendChild(st);
   }
 
   function handleSectionHash() {
@@ -815,16 +721,25 @@
   }
 
   function applyBranding() {
-    if (redirectAboutRouteIfNeeded()) return;
+    applyHeroStaggerPreference();
     document.title = BRAND_NAME;
     cleanupRouteArtifacts();
     updateNavigation();
     updateHome();
+    markHeroStaggerSeenIfHome();
     updateAbout();
     updateProjects();
     updateContact();
     bindRouteLinks(document);
     handleSectionHash();
+    syncHomeOneScreenClass();
+    syncAboutOneScreenClass();
+    syncAboutTypographyLayer();
+    scheduleAboutReconcile();
+    window.queueMicrotask(syncAboutTypographyLayer);
+    window.setTimeout(syncAboutTypographyLayer, 0);
+    window.setTimeout(syncAboutTypographyLayer, 100);
+    window.setTimeout(syncAboutTypographyLayer, 320);
   }
 
   function scheduleApply() {
@@ -836,11 +751,52 @@
     });
   }
 
+  function initBackgroundParallax() {
+    var layer = query(".mch-bg-pattern");
+    if (!layer) return;
+
+    var reduced =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      layer.style.transform = "";
+      layer.style.willChange = "auto";
+      return;
+    }
+
+    var factor = 0.24;
+    var ticking = false;
+
+    function update() {
+      var y = window.scrollY || window.pageYOffset || 0;
+      layer.style.transform = "translate3d(0, " + Math.round(y * factor) + "px, 0)";
+      ticking = false;
+    }
+
+    function onScrollOrResize() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
+    update();
+  }
+
   var observer = new MutationObserver(function () {
     scheduleApply();
   });
 
+  window.addEventListener("popstate", function () {
+    syncHomeOneScreenClass();
+    syncAboutOneScreenClass();
+    scheduleApply();
+  });
+
   window.addEventListener("DOMContentLoaded", function () {
+    initBackgroundParallax();
     applyBranding();
     observer.observe(document.body, { childList: true, subtree: true });
     window.addEventListener("resize", scheduleApply);
