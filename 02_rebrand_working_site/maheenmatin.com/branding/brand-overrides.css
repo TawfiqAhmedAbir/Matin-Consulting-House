@@ -1720,6 +1720,12 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   vertical-align: unset !important;
 }
 
+/* CRA contact page re-inserts its default <p>; only our intro line keeps this class */
+.page.mch-page-contact #contact-container .text-zone p:not(.mch-page-intro),
+body.mch-on-contact #contact-container .text-zone p:not(.mch-page-intro) {
+  display: none !important;
+}
+
 #contact-container h1,
 #portfolio-container h1 {
   margin: 0 0 22px !important;
@@ -1980,60 +1986,32 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 }
 
 .page.mch-page-contact #contact-container .mch-contact-actions {
-  display: block !important;
+  display: flex !important;
+  justify-content: center !important;
   width: 100% !important;
   max-width: none !important;
   margin-top: 28px !important;
 }
 
-.page.mch-page-contact #contact-container .mch-hero-buttons--contact {
-  justify-content: flex-start !important;
+/* Match homepage hero CTA row: same flex + max-width as .mch-hero-buttons (single primary only). */
+.page.mch-page-contact #contact-container .mch-contact-actions .mch-hero-buttons {
+  justify-content: center !important;
   align-items: center !important;
   width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
+  max-width: min(100%, 46rem) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 clamp(6px, 1.5vw, 12px) !important;
 }
 
-.page.mch-page-contact #contact-container .mch-hero-buttons--contact .mch-hero-btn {
+.page.mch-page-contact #contact-container .mch-contact-actions .mch-hero-btn {
   position: relative;
   z-index: 1;
 }
 
-/* Same visual tokens as homepage primary; extra specificity beats CRA / legacy anchors */
-.page.mch-page-contact #contact-container .mch-hero-buttons--contact a.mch-hero-btn.mch-hero-btn--primary {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 12px !important;
-  min-height: 50px !important;
-  min-width: min(100%, 188px) !important;
-  padding: 14px 28px !important;
-  border-radius: var(--mch-radius-sm) !important;
-  border: 1px solid transparent !important;
-  background: linear-gradient(180deg, rgba(252, 246, 236, 0.99), rgba(237, 222, 198, 0.96)) !important;
-  color: #06172e !important;
-  font-family: var(--mch-font-sans) !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.06em !important;
-  text-transform: none !important;
-  text-decoration: none !important;
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.22) inset,
-    0 12px 32px rgba(0, 0, 0, 0.28) !important;
-}
-
-.page.mch-page-contact #contact-container .mch-hero-buttons--contact a.mch-hero-btn.mch-hero-btn--primary:hover {
-  background: linear-gradient(180deg, rgba(255, 250, 242, 1), rgba(242, 228, 206, 0.98)) !important;
-  color: #041328 !important;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24) !important;
-  transform: translateY(-1px) !important;
-}
-
 .page.mch-page-contact #contact-container .mch-button-secondary,
 .page.mch-page-contact #contact-container .mch-contact-actions a:not(.mch-button-primary):not(.mch-hero-btn--primary),
-.page.mch-page-contact #contact-container .mch-hero-buttons--contact a:not(.mch-hero-btn--primary) {
+.page.mch-page-contact #contact-container .mch-contact-actions .mch-hero-buttons a:not(.mch-hero-btn--primary) {
   display: none !important;
 }
 
@@ -2329,12 +2307,10 @@ body.mch-on-contact #contact-container .text-zone .mch-contact-actions > a.mch-b
     font-size: 15px !important;
   }
 
-  .page.mch-page-contact #contact-container .mch-hero-buttons--contact {
+  .page.mch-page-contact #contact-container .mch-contact-actions .mch-hero-buttons {
     max-width: min(100%, 400px);
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   #contact-container h1,

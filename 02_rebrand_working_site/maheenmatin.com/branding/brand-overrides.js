@@ -205,60 +205,40 @@
     }
   }
 
-  function normalizeCtaLabel(el) {
-    var raw =
-      (el.textContent || "") ||
-      el.getAttribute("value") ||
-      el.getAttribute("aria-label") ||
-      "";
-    return raw
-      .replace(/\u00a0/g, " ")
-      .replace(/\s+/g, " ")
-      .trim()
-      .toLowerCase();
-  }
-
-  function isLearnMoreAboutUsCta(el) {
-    var norm = normalizeCtaLabel(el);
-    if (!norm) return false;
-    if (norm === "learn more about us") return true;
-    if (norm.indexOf("learn more") !== -1 && norm.indexOf("about us") !== -1) return true;
-    return false;
-  }
-
-  function purgeLearnMoreAboutUsFromContact(container) {
-    if (!container) return;
-    queryAll(
-      "a, button, [role='button'], input[type='submit'], input[type='button']",
-      container
-    ).forEach(function (el) {
-      if (isLearnMoreAboutUsCta(el)) removeEl(el);
-    });
-  }
-
   function hrefIsLinkedInContact(a) {
     var h = ((a && a.getAttribute("href")) || "").toLowerCase();
     return h.indexOf("linkedin.com") !== -1;
   }
 
-  /* Copy only allows LinkedIn as a CTA; React or old markup may leave extra <a> / <button> outside .mch-contact-actions. */
-  function enforceContactBlocksOnlyLinkedIn(container) {
+  /* CRA contact route injects a default <p> (“Feel free to reach out…”) that React may re-append after we rewrite .text-zone. */
+  function stripStrayContactParagraphs(container) {
     if (!container) return;
-    queryAll(".text-zone, .mch-contact-side", container).forEach(function (block) {
-      var linkedinKept = false;
-      queryAll("a", block).forEach(function (a) {
-        if (hrefIsLinkedInContact(a)) {
-          if (linkedinKept) removeEl(a);
-          else linkedinKept = true;
-        } else {
-          removeEl(a);
-        }
+    queryAll(".text-zone", container).forEach(function (zone) {
+      queryAll("p", zone).forEach(function (p) {
+        if (p.classList.contains("mch-page-intro")) return;
+        if (p.closest(".mch-contact-actions")) return;
+        removeEl(p);
       });
-      queryAll(
-        "button, [role='button'], input[type='submit'], input[type='button']",
-        block
-      ).forEach(removeEl);
+      queryAll(".mch-rich-copy", zone).forEach(removeEl);
     });
+  }
+
+  /* Single outbound CTA (LinkedIn). Strip stray React buttons / “Learn more” links anywhere in #contact-container. */
+  function enforceContactOnlyLinkedInCTA(container) {
+    if (!container) return;
+    var linkedinKept = false;
+    queryAll("a", container).forEach(function (a) {
+      if (hrefIsLinkedInContact(a)) {
+        if (linkedinKept) removeEl(a);
+        else linkedinKept = true;
+      } else {
+        removeEl(a);
+      }
+    });
+    queryAll(
+      "button, [role='button'], input[type='submit'], input[type='button']",
+      container
+    ).forEach(removeEl);
   }
 
   function escapeHtml(value) {
@@ -487,12 +467,8 @@
     return (
       "<h1>Contact Us</h1>" +
       '<p class="mch-page-intro">A thoughtful first conversation is often the best place to start.</p>' +
-      '<div class="mch-rich-copy">' +
-      "<p>Matin Consulting House is open to professional enquiries related to strategy, transformation, data-led decision support, and delivery-focused advisory work.</p>" +
-      "<p>The preferred first step is a LinkedIn message, which keeps outreach simple and gives us a clear starting point for the discussion.</p>" +
-      "</div>" +
       '<div class="mch-contact-actions">' +
-      '<div class="mch-hero-buttons mch-hero-buttons--contact">' +
+      '<div class="mch-hero-buttons">' +
       buildHeroPrimaryLinkedInAnchor() +
       "</div></div>"
     );
@@ -774,13 +750,24 @@
       mapWrap.classList.add("mch-contact-map-hidden");
     }
 
-    purgeLearnMoreAboutUsFromContact(container);
-    enforceContactBlocksOnlyLinkedIn(container);
-    queryAll(
-      ".mch-button-secondary,a[href='/'][data-mch-route],a[href='/'].mch-button",
-      container
-    ).forEach(removeEl);
-    enforceContactBlocksOnlyLinkedIn(container);
+    enforceContactOnlyLinkedInCTA(container);
+    stripStrayContactParagraphs(container);
+
+    /* Run after React commit so the default contact <p> does not linger one frame (or reappear). */
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(function () {
+        if (normalizePathname() !== CONTACT_ROUTE) return;
+        var c = query("#contact-container");
+        if (!c) return;
+        stripStrayContactParagraphs(c);
+        var zone = query(".text-zone", c);
+        if (zone && !query(".mch-contact-actions", zone)) {
+          zone.innerHTML = getContactMainMarkup();
+        }
+        enforceContactOnlyLinkedInCTA(c);
+        stripStrayContactParagraphs(c);
+      });
+    });
   }
 
   function cleanupRouteArtifacts() {
