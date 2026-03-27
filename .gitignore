@@ -1,0 +1,9 @@
+# Logs and local noise
+*.log
+nul
+Thumbs.db
+.DS_Store
+
+# Editor / OS
+*.swp
+*~

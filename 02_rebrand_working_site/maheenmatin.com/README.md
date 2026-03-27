@@ -1,64 +1,31 @@
-# Website Maintenance Guide (Junior-Friendly)
+# Matin Consulting House — published site folder
 
-This project is a mirrored React build with a customization layer on top.
+Netlify **publish directory**: this folder (`02_rebrand_working_site/maheenmatin.com`).
 
-## Quick File Map
+## Layout (quick mental model)
 
-- `index.html` - entry file; loads the compiled app and custom overrides.
-- `brand-overrides.css` - visual customization layer (layout, colors, nav, hero polish).
-- `brand-overrides.js` - text/content customization layer (home/about/contact/nav labels).
-- `manifest.json` - app metadata (name, icon, theme color).
-- `_redirects` - SPA routing rule for Netlify-style hosting.
-- `logo-matin.png`, `cover-matin.png` - brand assets used by HTML/CSS/JS.
-- `redditClone.png`, `portfolioProject.png`, `gameProject.png` - project images used by the compiled app.
-- `static/` - compiled React bundle and fonts (treat as build output).
+| Path | Purpose |
+|------|---------|
+| **`branding/`** | Edit these: `brand-overrides.js` (copy / behavior), `brand-overrides.css` (design). |
+| **`assets/images/`** | Brand images: logo, full-page background tile, etc. |
+| **`static/`** | Old **Create React App** build output — do not edit by hand. |
+| **`docs/`** | Extra documentation and design references (not needed for the site to run). |
+| **`index.html`** | Loads React + branding; favicon paths live here. |
 
-## Safe To Edit vs Do Not Touch
+Full detail: **[docs/STRUCTURE.md](docs/STRUCTURE.md)**
 
-- Safe to edit:
-  - `brand-overrides.css`
-  - `brand-overrides.js`
-  - `manifest.json`
-  - `index.html` (only metadata and include paths)
-- Avoid editing directly:
-  - `static/js/main.37a8e69e.js`
-  - `static/css/main.5662ea01.css`
-  - Files under `static/media/`
-
-## Common Changes (Where To Edit)
-
-- Change brand text (title, headings, About/Contact copy):
-  - Edit constants and section updaters in `brand-overrides.js`.
-- Change styles (colors, spacing, nav buttons, hero look):
-  - Edit `brand-overrides.css`.
-- Change favicon/app icon:
-  - Replace `logo-matin.png`, then confirm `index.html` and `manifest.json` point to it.
-- Change background texture:
-  - Replace `cover-matin.png`, then adjust `body` background rules in `brand-overrides.css` if needed.
-
-## How The Customization Layer Works
-
-1. The original app renders from the compiled bundle in `static/`.
-2. `brand-overrides.css` overrides styles after the main CSS loads.
-3. `brand-overrides.js` updates labels/text after render.
-4. A `MutationObserver` reapplies branding when React rerenders.
-
-## Local Run
-
-From this folder (`maheenmatin.com/`):
+## Local preview
 
 ```bash
 python -m http.server 4174
 ```
 
-Then open:
+Open [http://127.0.0.1:4174/](http://127.0.0.1:4174/)
 
-- [http://127.0.0.1:4174/](http://127.0.0.1:4174/)
+## After you change branding files
 
-## Pre-Release Checklist
+Bump the `?v=...` query string on the `<link>` and `<script>` tags for `branding/brand-overrides.*` in **`index.html`** so browsers fetch fresh files.
 
-- Homepage loads without console errors.
-- Navigation hover labels do not overlap icons.
-- Brand name appears correctly in title and page text.
-- About and Contact text matches current messaging.
-- Mobile layout still looks acceptable around header and hero sections.
+## Portfolio images at repo root
+
+Files like `redditClone.png`, `portfolioProject.png`, `gameProject.png` stay beside `index.html` because the **compiled** React bundle references those **exact filenames**. If you replace an image, keep the filename or rebuild the app from its React source.

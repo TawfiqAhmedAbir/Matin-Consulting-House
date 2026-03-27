@@ -3,7 +3,7 @@
 
   var BRAND_NAME = "Matin Consulting House";
   /* Bump query when replacing logo-matin.png so browsers skip stale cache */
-  var LOGO_ASSET = "logo-matin.png?v=dedf6326";
+  var LOGO_ASSET = "assets/images/logo-matin.png?v=dedf6326";
   var LINKEDIN_URL = "https://www.linkedin.com/company/matin-consulting-house/";
   var HOME_ROUTE = "/";
   var ABOUT_ROUTE = "/about";
