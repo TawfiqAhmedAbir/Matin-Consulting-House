@@ -14,10 +14,10 @@
   --mch-panel-soft: rgba(9, 30, 60, 0.6);
   --mch-border: rgba(243, 232, 211, 0.16);
   --mch-border-strong: rgba(243, 232, 211, 0.28);
-  --mch-text: #f3e8d3;
-  --mch-text-soft: rgba(243, 232, 211, 0.9);
-  --mch-text-muted: rgba(243, 232, 211, 0.72);
-  --mch-accent: rgba(226, 208, 176, 0.98);
+  --mch-text: #f9f2e6;
+  --mch-text-soft: rgba(249, 242, 230, 0.96);
+  --mch-text-muted: rgba(249, 242, 230, 0.82);
+  --mch-accent: rgba(236, 220, 192, 0.99);
   /* Nav / drawer pills: match hero primary CTA (“Start a conversation”) */
   --mch-nav-btn-grad: linear-gradient(180deg, rgba(244, 233, 214, 0.96), rgba(230, 211, 181, 0.92));
   --mch-nav-btn-grad-hover: linear-gradient(180deg, rgba(234, 220, 196, 0.99), rgba(210, 188, 158, 0.96));
@@ -82,8 +82,8 @@ html {
   background-position: center top;
   background-repeat: repeat;
   background-size: 980px auto;
-  filter: saturate(1.08) brightness(0.96) contrast(1.05);
-  opacity: 0.96;
+  filter: saturate(1.08) brightness(1.01) contrast(1.05);
+  opacity: 0.97;
   transform: translate3d(0, 0, 0);
   will-change: transform;
 }
@@ -111,7 +111,7 @@ html {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(2, 10, 24, 0.16) 0%, rgba(4, 16, 36, 0.22) 42%, rgba(2, 8, 22, 0.33) 100%),
+    linear-gradient(180deg, rgba(2, 10, 24, 0.14) 0%, rgba(4, 16, 36, 0.2) 42%, rgba(2, 8, 22, 0.3) 100%),
     radial-gradient(circle at 14% 16%, rgba(255, 255, 255, 0.034), transparent 44%),
     radial-gradient(circle at 20% 18%, rgba(214, 191, 156, 0.03), transparent 44%),
     radial-gradient(circle at 82% 12%, rgba(11, 48, 88, 0.07), transparent 50%),
@@ -898,7 +898,12 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   object-fit: contain;
   object-position: center center;
   margin: 0 auto;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.35)) drop-shadow(0 12px 32px rgba(0, 0, 0, 0.28));
+  filter:
+    brightness(1.08)
+    contrast(1.08)
+    saturate(1.05)
+    drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4))
+    drop-shadow(0 12px 32px rgba(0, 0, 0, 0.32));
   transition:
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     filter 0.35s ease;
@@ -917,18 +922,18 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   max-width: min(100%, 46rem);
   width: 100%;
   box-sizing: border-box;
-  color: rgba(248, 243, 232, 0.98) !important;
+  color: rgba(255, 250, 242, 0.995) !important;
   text-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.72),
-    0 2px 16px rgba(0, 0, 0, 0.58),
-    0 12px 36px rgba(0, 0, 0, 0.45);
+    0 1px 1px rgba(0, 0, 0, 0.56),
+    0 6px 20px rgba(0, 0, 0, 0.36);
   /* Overrides base `.container h1` (Coolvetica 85px nowrap) */
-  font-family: var(--mch-font-sans) !important;
+  font-family: var(--mch-font-brand) !important;
   font-style: normal !important;
-  font-size: clamp(26px, 3.45vw, 42px) !important;
-  font-weight: 700 !important;
-  line-height: 1.34 !important;
-  letter-spacing: -0.022em !important;
+  font-size: clamp(30px, 3.7vw, 46px) !important;
+  font-weight: 500 !important;
+  line-height: 1.16 !important;
+  letter-spacing: 0 !important;
+  text-rendering: optimizeLegibility;
   text-align: center !important;
   white-space: normal !important;
   text-wrap: balance;
@@ -1020,8 +1025,8 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 .mch-hero-btn--primary {
   gap: 12px !important;
   border: 1px solid transparent !important;
-  background: linear-gradient(180deg, rgba(244, 233, 214, 0.96), rgba(230, 211, 181, 0.92)) !important;
-  color: #091a33 !important;
+  background: linear-gradient(180deg, rgba(252, 246, 236, 0.99), rgba(237, 222, 198, 0.96)) !important;
+  color: #06172e !important;
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.22) inset,
     0 12px 32px rgba(0, 0, 0, 0.28) !important;
@@ -1045,15 +1050,15 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 }
 
 .mch-hero-btn--primary:hover {
-  background: linear-gradient(180deg, rgba(234, 220, 196, 0.99), rgba(210, 188, 158, 0.96)) !important;
-  color: #051222 !important;
+  background: linear-gradient(180deg, rgba(255, 250, 242, 1), rgba(242, 228, 206, 0.98)) !important;
+  color: #041328 !important;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.24) !important;
 }
 
 .mch-hero-btn--secondary {
   background: transparent !important;
-  border: 1px solid rgba(243, 232, 211, 0.38) !important;
-  color: rgba(248, 243, 232, 0.98) !important;
+  border: 1px solid rgba(249, 242, 230, 0.58) !important;
+  color: rgba(255, 251, 245, 0.995) !important;
   box-shadow: none !important;
   text-shadow:
     0 1px 2px rgba(0, 0, 0, 0.68),
@@ -1061,8 +1066,8 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 }
 
 .mch-hero-btn--secondary:hover {
-  border-color: rgba(243, 232, 211, 0.52) !important;
-  background: rgba(243, 232, 211, 0.09) !important;
+  border-color: rgba(249, 242, 230, 0.72) !important;
+  background: rgba(249, 242, 230, 0.12) !important;
   color: var(--mch-text) !important;
 }
 
@@ -1105,26 +1110,26 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 
 .mch-button-primary,
 .home-container .flat-button {
-  background: linear-gradient(180deg, rgba(244, 233, 214, 0.96), rgba(230, 211, 181, 0.92)) !important;
-  color: #091a33 !important;
+  background: linear-gradient(180deg, rgba(252, 246, 236, 0.99), rgba(237, 222, 198, 0.96)) !important;
+  color: #06172e !important;
   box-shadow: 0 16px 34px rgba(0, 0, 0, 0.2) !important;
 }
 
 .mch-button-primary:hover,
 .home-container .flat-button:hover {
-  background: linear-gradient(180deg, rgba(248, 239, 225, 1), rgba(232, 214, 187, 0.96)) !important;
-  color: #071a34 !important;
+  background: linear-gradient(180deg, rgba(255, 250, 242, 1), rgba(242, 228, 206, 0.98)) !important;
+  color: #041328 !important;
 }
 
 .mch-button-secondary {
   background: transparent !important;
-  border-color: rgba(243, 232, 211, 0.24) !important;
+  border-color: rgba(249, 242, 230, 0.34) !important;
   color: var(--mch-text) !important;
 }
 
 .mch-button-secondary:hover {
-  border-color: rgba(243, 232, 211, 0.44) !important;
-  background: rgba(243, 232, 211, 0.06) !important;
+  border-color: rgba(249, 242, 230, 0.56) !important;
+  background: rgba(249, 242, 230, 0.09) !important;
 }
 
 .mch-card-label,
@@ -1888,8 +1893,8 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 
 @media (max-width: 900px) and (min-width: 641px) {
   .mch-hero-headline {
-    font-size: clamp(24px, 3.75vw, 37px) !important;
-    line-height: 1.35 !important;
+    font-size: clamp(28px, 4.2vw, 40px) !important;
+    line-height: 1.18 !important;
   }
 
   .mch-hero-buttons {
@@ -1915,8 +1920,8 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   }
 
   .mch-hero-headline {
-    font-size: clamp(22px, 4.85vw, 35px) !important;
-    line-height: 1.36 !important;
+    font-size: clamp(26px, 5.2vw, 38px) !important;
+    line-height: 1.18 !important;
   }
 
   .mch-hero-btn {
@@ -2010,7 +2015,8 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 
   .mch-hero-headline {
     margin-bottom: 44px !important;
-    font-size: clamp(22px, 6.2vw, 34px) !important;
+    font-size: clamp(24px, 6.6vw, 36px) !important;
+    line-height: 1.18 !important;
   }
 
   .mch-hero-buttons {
@@ -2336,59 +2342,86 @@ html.mch-about-one-screen .mch-page-about .about-columns .mch-side-list li::befo
 
 .page.mch-page-about #about-text-zone .about.about-redesign .about-layout {
   display: grid;
-  grid-template-columns: 1fr;
-  row-gap: clamp(8px, 1.4vh, 14px);
-  justify-items: center;
-  align-items: start;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-areas:
+    "title intro"
+    "cards cards"
+    "foot foot";
+  column-gap: clamp(28px, 4vw, 52px);
+  row-gap: clamp(16px, 2.4vh, 30px);
   width: 100%;
-  max-width: min(74rem, 100%);
+  max-width: min(1160px, 100%);
   margin: 0 auto;
+  align-items: start;
 }
 
-.page.mch-page-about #about-text-zone .about.about-redesign .about-head {
-  display: grid;
-  gap: clamp(6px, 1vh, 11px);
-  justify-items: center;
-  width: 100%;
+.page.mch-page-about #about-text-zone .about.about-redesign .about-title {
+  grid-area: title;
+  align-self: end;
+  text-align: left !important;
 }
 
-.page.mch-page-about #about-text-zone .about.about-redesign .about-body {
-  display: grid;
-  gap: clamp(8px, 1.2vh, 14px);
-  justify-items: center;
-  width: 100%;
+.page.mch-page-about #about-text-zone .about.about-redesign .about-intro {
+  grid-area: intro;
+  margin: 0;
+  text-align: left !important;
+  max-width: 42ch;
 }
 
 .page.mch-page-about #about-text-zone .about.about-redesign .about-columns {
+  grid-area: cards;
   width: 100%;
-  max-width: min(66rem, 100%);
-  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(10px, 1.8vw, 18px);
+  gap: clamp(14px, 2vw, 24px);
 }
 
 .page.mch-page-about #about-text-zone .about.about-redesign .about-card {
-  padding: clamp(10px, 1.45vh, 16px) clamp(12px, 1.9vw, 18px);
-  border: 1px solid rgba(243, 232, 211, 0.12);
-  border-radius: 16px;
-  background: linear-gradient(180deg, rgba(9, 30, 60, 0.12), rgba(6, 21, 43, 0.18));
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 12px 40px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: clamp(14px, 1.8vh, 22px) clamp(16px, 2.2vw, 24px);
+  border: 1px solid rgba(243, 232, 211, 0.16);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(8, 24, 48, 0.44), rgba(5, 18, 36, 0.56));
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
   text-align: left;
 }
 
 .page.mch-page-about #about-text-zone .about.about-redesign .about-card .mch-side-list {
-  margin: 0.15rem 0 0;
-  padding-left: 1.05rem;
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  text-align: left;
 }
 
-@media (max-width: 768px) {
+.page.mch-page-about #about-text-zone .about.about-redesign .about-footnote {
+  grid-area: foot;
+  margin: 0;
+  text-align: left !important;
+  padding: clamp(12px, 1.7vh, 18px) clamp(14px, 2vw, 20px);
+  border: 1px solid rgba(243, 232, 211, 0.14);
+  border-radius: 14px;
+  background: rgba(7, 22, 43, 0.42);
+}
+
+@media (max-width: 960px) {
+  .page.mch-page-about #about-text-zone .about.about-redesign .about-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "intro"
+      "cards"
+      "foot";
+    row-gap: clamp(14px, 2vh, 22px);
+  }
+
+  .page.mch-page-about #about-text-zone .about.about-redesign .about-intro {
+    max-width: none;
+  }
+
   .page.mch-page-about #about-text-zone .about.about-redesign .about-columns {
     grid-template-columns: 1fr;
-    gap: clamp(14px, 2.4vh, 20px);
   }
 }
