@@ -77,13 +77,13 @@ html {
   top: -15vh;
   height: calc(100% + 30vh);
   background-color: var(--mch-bg-900);
-  background-image: url("./cover-matin.png");
+  /* High-res seamless tile generated from reference image */
+  background-image: url("./background-seamless-2048.jpg");
   background-position: center top;
-  /* Tiled wave mesh (matches reference hero): repeat both axes */
   background-repeat: repeat;
-  background-size: 780px auto;
-  /* Visible mesh, slightly subdued so the field reads darker */
-  filter: saturate(1.42) brightness(1.14) contrast(1.28);
+  background-size: 980px auto;
+  filter: saturate(1.08) brightness(0.96) contrast(1.05);
+  opacity: 0.96;
   transform: translate3d(0, 0, 0);
   will-change: transform;
 }
@@ -96,26 +96,26 @@ html {
   background:
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.05) 0%,
-      rgba(255, 255, 255, 0.028) 28%,
-      rgba(255, 255, 255, 0.016) 52%,
-      rgba(0, 0, 0, 0.028) 100%
+      rgba(255, 255, 255, 0.028) 0%,
+      rgba(255, 255, 255, 0.016) 28%,
+      rgba(255, 255, 255, 0.008) 52%,
+      rgba(0, 0, 0, 0.04) 100%
     ),
-    radial-gradient(ellipse 110% 75% at 50% 45%, rgba(255, 255, 255, 0.036) 0%, transparent 58%),
-    radial-gradient(ellipse 100% 90% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.04) 100%);
+    radial-gradient(ellipse 110% 75% at 50% 45%, rgba(255, 255, 255, 0.02) 0%, transparent 58%),
+    radial-gradient(ellipse 100% 90% at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.07) 100%);
   mix-blend-mode: soft-light;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .mch-bg-scrim {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(2, 10, 24, 0.2) 0%, rgba(4, 16, 36, 0.26) 42%, rgba(2, 8, 22, 0.38) 100%),
-    radial-gradient(circle at 14% 16%, rgba(255, 255, 255, 0.04), transparent 44%),
-    radial-gradient(circle at 20% 18%, rgba(214, 191, 156, 0.04), transparent 44%),
-    radial-gradient(circle at 82% 12%, rgba(11, 48, 88, 0.1), transparent 50%),
-    radial-gradient(circle at 52% 100%, rgba(2, 6, 16, 0.1), transparent 52%);
+    linear-gradient(180deg, rgba(2, 10, 24, 0.16) 0%, rgba(4, 16, 36, 0.22) 42%, rgba(2, 8, 22, 0.33) 100%),
+    radial-gradient(circle at 14% 16%, rgba(255, 255, 255, 0.034), transparent 44%),
+    radial-gradient(circle at 20% 18%, rgba(214, 191, 156, 0.03), transparent 44%),
+    radial-gradient(circle at 82% 12%, rgba(11, 48, 88, 0.07), transparent 50%),
+    radial-gradient(circle at 52% 100%, rgba(2, 6, 16, 0.11), transparent 52%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -125,7 +125,7 @@ html {
 
   .mch-bg-depth {
     mix-blend-mode: normal;
-    opacity: 0.54;
+    opacity: 0.42;
   }
 }
 
@@ -1412,6 +1412,14 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   box-shadow: none !important;
 }
 
+.page.mch-page-about,
+.page.mch-page-about > .container,
+.page.mch-page-about .container.mch-about-shell,
+.page.mch-page-about #about-text-zone {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
 /* Base app .container h1 uses nowrap; .page uses overflow-x clip — both can clip this title */
 .page.mch-page-about {
   overflow-x: visible !important;
@@ -1936,7 +1944,7 @@ body.mch-mobile-menu-open .mch-mobile-menu {
   }
 
   .mch-bg-pattern {
-    background-size: 840px auto;
+    background-size: 880px auto;
   }
 
   .page {
@@ -2362,9 +2370,14 @@ html.mch-about-one-screen .mch-page-about .about-columns .mch-side-list li::befo
 
 .page.mch-page-about #about-text-zone .about.about-redesign .about-card {
   padding: clamp(10px, 1.45vh, 16px) clamp(12px, 1.9vw, 18px);
-  border: 1px solid rgba(243, 232, 211, 0.16);
+  border: 1px solid rgba(243, 232, 211, 0.12);
   border-radius: 16px;
-  background: linear-gradient(180deg, rgba(9, 30, 60, 0.34), rgba(6, 21, 43, 0.46));
+  background: linear-gradient(180deg, rgba(9, 30, 60, 0.12), rgba(6, 21, 43, 0.18));
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 12px 40px rgba(0, 0, 0, 0.12);
   text-align: left;
 }
 
