@@ -49,16 +49,36 @@
   var HERO_SECONDARY_CTA = "View Our Work";
   var HERO_PRIMARY_ARIA_LABEL = "Start a conversation, opens LinkedIn in a new tab";
   var HERO_STAGGER_SESSION_KEY = "mch_hero_stagger_seen";
+  var PROJECTS_DATA = [
+    {
+      name: "Luxury Travel Concierge",
+      description: "SME with international presence"
+    },
+    {
+      name: "Aspierations",
+      description: "CIC empowering autistic professionals"
+    },
+    {
+      name: "NHS",
+      description: "Royal Free London"
+    },
+    {
+      name: "Bright Futures",
+      description: "NPO for children with long-term illness"
+    }
+  ];
 
   var ABOUT_MAIN_MARKUP =
-    '<section class="about about-redesign">' +
-    '<div class="about-layout">' +
+    '<main class="about-page">' +
+    '<section class="about-layout">' +
+    '<div class="about-copy">' +
     '<h1 class="about-title">About Matin Consulting House</h1>' +
     '<p class="mch-page-intro about-intro">' +
     "Matin Consulting House is an independent consultancy supporting SMEs across strategy and delivery, turning objectives into shipped solutions. We provide data-driven recommendations and engineer the BI pipeline to fuel them. Advisory services are offered pro bono for NPOs." +
     "</p>" +
-    '<div class="about-columns">' +
-    '<article class="about-column about-card">' +
+    "</div>" +
+    '<div class="about-panels">' +
+    '<article class="about-panel">' +
     "<p><strong>Retained on a 6-figure, CEO-sponsored digital transformation (boutique luxury travel concierge):</strong></p>" +
     '<ul class="mch-side-list">' +
     "<li>RevOps diagnostics and funnel insights</li>" +
@@ -66,63 +86,60 @@
     "<li>Executive advisory and delivery governance</li>" +
     "</ul>" +
     "</article>" +
-    '<article class="about-column about-card">' +
+    '<article class="about-panel">' +
     "<p><strong>Pro bono advisory for Aspierations (CIC for autistic professionals):</strong></p>" +
     '<ul class="mch-side-list">' +
     "<li>5-figure GTM strategy and revenue forecasting</li>" +
     "<li>Market positioning and operational cost modelling</li>" +
     "</ul>" +
     "</article>" +
+    '<p class="about-body-footnote">Additional engagements: NHS (Royal Free London) and Bright Futures (with UCL Research Consultancy Clinic)</p>' +
     "</div>" +
-    '<p class="about-footnote">Additional engagements: NHS (Royal Free London) and Bright Futures (with UCL Research Consultancy Clinic)</p>' +
-    "</div>" +
-    "</section>";
+    "</section>" +
+    "</main>";
 
   /* Appended last to <head> so it wins over CRA/style-in-JS that loads after brand-overrides.css */
-  /* About redesign typography tuned for better readability and denser layout */
   var ABOUT_TYPOGRAPHY_LAYER_CSS =
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-title{font-size:clamp(2.2rem,4.4vw,3.6rem)!important;line-height:1.08!important;margin:0!important;text-align:left!important;letter-spacing:-0.02em!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-intro{font-size:clamp(1.06rem,1.35vw,1.34rem)!important;line-height:1.58!important;margin:0!important;text-align:left!important;max-width:42ch!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-card>p{font-size:clamp(1rem,1.2vw,1.2rem)!important;line-height:1.45!important;margin:0 0 .65rem!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-card li{font-size:clamp(.96rem,1.05vw,1.1rem)!important;line-height:1.45!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-footnote{font-size:clamp(1rem,1.1vw,1.16rem)!important;line-height:1.45!important;margin:0!important;text-align:left!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-title{font-size:clamp(2.9rem,6vw,4.7rem)!important;line-height:1.02!important;font-weight:700!important;margin:0!important;letter-spacing:-0.04em!important;color:var(--mch-text)!important;text-align:left!important;text-shadow:0 10px 32px rgba(0,0,0,.28),0 0 18px rgba(215,184,126,.08)!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-intro{font-size:clamp(1.05rem,1.1vw + .7rem,1.22rem)!important;line-height:1.8!important;margin:1.35rem 0 0!important;max-width:31rem!important;padding-left:0!important;color:var(--mch-text-soft)!important;text-align:left!important;font-weight:500!important;border-left:none!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel>p{font-size:1.08rem!important;line-height:1.6!important;margin:0 0 .85rem!important;color:var(--mch-text)!important;text-align:left!important;letter-spacing:-.01em!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel>p strong{font-weight:700!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel .mch-side-list li{font-size:.99rem!important;line-height:1.72!important;color:var(--mch-text-soft)!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-body-footnote{font-size:.95rem!important;line-height:1.65!important;margin:.35rem 0 0!important;padding:1rem 1.1rem 0!important;color:var(--mch-text-muted)!important;text-align:left!important;letter-spacing:.01em!important}" +
     "@media (max-width:960px){" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-title{font-size:clamp(1.9rem,6vw,2.8rem)!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-intro{font-size:clamp(1rem,2.7vw,1.2rem)!important;max-width:none!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-card>p{font-size:clamp(.98rem,2.4vw,1.12rem)!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-card li{font-size:clamp(.92rem,2.2vw,1.02rem)!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-footnote{font-size:clamp(.95rem,2.2vw,1.04rem)!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-title{font-size:clamp(2.35rem,8vw,3.4rem)!important;text-align:center!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-intro{font-size:clamp(1rem,2.8vw,1.12rem)!important;max-width:none!important;text-align:center!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel>p{font-size:1.02rem!important}" +
     "}";
 
-  /* Grid + spacing layer for a fuller, more ergonomic About page */
   var ABOUT_LAYOUT_LAYER_CSS =
-    "#about-text-zone.mch-about-tuned .about.about-redesign{width:100%!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-layout{display:grid!important;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)!important;grid-template-areas:'title intro' 'cards cards' 'foot foot'!important;column-gap:clamp(28px,4vw,52px)!important;row-gap:clamp(16px,2.4vh,30px)!important;max-width:min(1160px,100%)!important;margin:0 auto!important;align-items:start!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-title{grid-area:title!important;align-self:end!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-intro{grid-area:intro!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-columns{grid-area:cards!important;display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:clamp(14px,2vw,24px)!important;width:100%!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-card{display:flex!important;flex-direction:column!important;gap:.55rem!important;padding:clamp(14px,1.8vh,22px) clamp(16px,2.2vw,24px)!important;border:1px solid rgba(243,232,211,.16)!important;border-radius:18px!important;background:linear-gradient(180deg,rgba(8,24,48,.44),rgba(5,18,36,.56))!important;-webkit-backdrop-filter:blur(9px)!important;backdrop-filter:blur(9px)!important;box-shadow:0 12px 32px rgba(0,0,0,.18)!important;text-align:left!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-card .mch-side-list{margin:.25rem 0 0!important;padding-left:1.1rem!important;text-align:left!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-card .mch-side-list li::before{width:7px!important;height:7px!important;top:.58em!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-footnote{grid-area:foot!important;padding:clamp(12px,1.7vh,18px) clamp(14px,2vw,20px)!important;border:1px solid rgba(243,232,211,.14)!important;border-radius:14px!important;background:rgba(7,22,43,.42)!important}" +
+    "#about-text-zone.mch-about-tuned{text-align:left!important;padding-top:0!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page{width:100%!important;min-width:0!important;margin:0!important;padding:0!important;background:transparent!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-layout{display:grid!important;grid-template-columns:minmax(0,1.02fr) minmax(340px,.98fr)!important;align-items:start!important;column-gap:clamp(30px,4vw,64px)!important;row-gap:clamp(22px,3vh,34px)!important;max-width:min(1160px,100%)!important;margin:0 auto!important;padding:clamp(2.4rem,6vh,4.5rem) 1.5rem 4.5rem!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-copy{position:relative!important;display:flex!important;flex-direction:column!important;justify-content:flex-start!important;align-self:center!important;min-width:0!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-copy::before{content:''!important;position:absolute!important;inset:-4rem auto auto -3rem!important;width:18rem!important;height:18rem!important;border-radius:999px!important;background:radial-gradient(circle,rgba(214,183,126,.16) 0%,rgba(214,183,126,.06) 35%,rgba(214,183,126,0) 72%)!important;filter:blur(18px)!important;pointer-events:none!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panels{position:relative!important;display:grid!important;grid-template-columns:1fr!important;gap:clamp(18px,2.4vh,26px)!important;min-width:0!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panels::before{content:''!important;position:absolute!important;inset:6% -8% auto auto!important;width:14rem!important;height:14rem!important;border-radius:999px!important;background:radial-gradient(circle,rgba(198,169,108,.13) 0%,rgba(41,92,86,.12) 38%,rgba(0,0,0,0) 72%)!important;filter:blur(22px)!important;pointer-events:none!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel{position:relative!important;overflow:hidden!important;padding:clamp(18px,2.2vh,24px) clamp(18px,2.4vw,26px)!important;border:1px solid rgba(201,175,122,.28)!important;border-radius:18px!important;background:linear-gradient(180deg,rgba(18,49,47,.9),rgba(8,23,28,.92))!important;box-shadow:0 22px 52px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,233,194,.06)!important;-webkit-backdrop-filter:blur(8px)!important;backdrop-filter:blur(8px)!important;transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease,background .28s ease!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel::before{content:''!important;position:absolute!important;inset:0!important;background:linear-gradient(180deg,rgba(255,236,205,.12),rgba(255,236,205,0) 28%,rgba(255,255,255,0) 100%)!important;pointer-events:none!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel::after{content:''!important;position:absolute!important;inset:auto -18% -45% auto!important;width:12rem!important;height:12rem!important;border-radius:999px!important;background:radial-gradient(circle,rgba(214,183,126,.14) 0%,rgba(214,183,126,0) 70%)!important;filter:blur(8px)!important;pointer-events:none!important;opacity:.9!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel>p::before{content:''!important;display:block!important;width:2.4rem!important;height:1px!important;margin:0 0 .9rem!important;background:linear-gradient(90deg,rgba(225,198,142,.95),rgba(225,198,142,0))!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel:hover{transform:translateY(-4px)!important;border-color:rgba(225,198,142,.42)!important;box-shadow:0 28px 64px rgba(0,0,0,.34),0 0 0 1px rgba(255,232,192,.05) inset,0 0 28px rgba(214,183,126,.08)!important;background:linear-gradient(180deg,rgba(21,56,53,.94),rgba(9,25,30,.96))!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel .mch-side-list{margin:0!important;padding-left:0!important;list-style:none!important;text-align:left!important;display:grid!important;gap:.42rem!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel .mch-side-list li{position:relative!important;padding-left:1.25rem!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel .mch-side-list li::before{left:.2rem!important;top:.55em!important;width:8px!important;height:8px!important;background:rgba(212,190,154,.88)!important;opacity:1!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-body-footnote{position:relative!important;border-top:1px solid rgba(201,175,122,.18)!important;background:linear-gradient(180deg,rgba(255,236,205,.03),rgba(255,236,205,0))!important;border-radius:10px!important}" +
+    "@media (prefers-reduced-motion:reduce){" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel{transition:none!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-panel:hover{transform:none!important}" +
+    "}" +
     "@media (max-width:960px){" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-layout{grid-template-columns:1fr!important;grid-template-areas:'title' 'intro' 'cards' 'foot'!important;column-gap:0!important;row-gap:clamp(14px,2vh,22px)!important}" +
-    "#about-text-zone.mch-about-tuned .about.about-redesign .about-columns{grid-template-columns:1fr!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-layout{grid-template-columns:1fr!important;max-width:min(44rem,100%)!important;padding:2.8rem 1.25rem 3.5rem!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-copy{align-self:stretch!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-copy::before{left:50%!important;transform:translateX(-50%)!important;inset:-3rem auto auto 50%!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-copy::after{display:none!important}" +
+    "#about-text-zone.mch-about-tuned main.about-page .about-body-footnote{text-align:center!important}" +
     "}";
-
-  var CONTACT_MAIN_MARKUP =
-    "<h1>Contact Us</h1>" +
-    '<p class="mch-page-intro">A thoughtful first conversation is often the best place to start.</p>' +
-    '<div class="mch-rich-copy">' +
-    "<p>Matin Consulting House is open to professional enquiries related to strategy, transformation, data-led decision support, and delivery-focused advisory work.</p>" +
-    "<p>The preferred first step is a LinkedIn message, which keeps outreach simple and gives us a clear starting point for the discussion.</p>" +
-    "</div>" +
-    '<div class="mch-contact-actions">' +
-    '<a class="mch-button mch-button-primary" href="' +
-    LINKEDIN_URL +
-    '" target="_blank" rel="noreferrer">Start a Conversation</a>' +
-    '<a class="mch-button mch-button-secondary" href="/" data-mch-route="/">Learn More About Us</a>' +
-    "</div>";
 
   var CONTACT_SIDE_MARKUP =
     "<p class=\"mch-side-card-label\">Contact details</p>" +
@@ -186,6 +203,89 @@
     if (el && el.parentNode) {
       el.parentNode.removeChild(el);
     }
+  }
+
+  function normalizeCtaLabel(el) {
+    var raw =
+      (el.textContent || "") ||
+      el.getAttribute("value") ||
+      el.getAttribute("aria-label") ||
+      "";
+    return raw
+      .replace(/\u00a0/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .toLowerCase();
+  }
+
+  function isLearnMoreAboutUsCta(el) {
+    var norm = normalizeCtaLabel(el);
+    if (!norm) return false;
+    if (norm === "learn more about us") return true;
+    if (norm.indexOf("learn more") !== -1 && norm.indexOf("about us") !== -1) return true;
+    return false;
+  }
+
+  function purgeLearnMoreAboutUsFromContact(container) {
+    if (!container) return;
+    queryAll(
+      "a, button, [role='button'], input[type='submit'], input[type='button']",
+      container
+    ).forEach(function (el) {
+      if (isLearnMoreAboutUsCta(el)) removeEl(el);
+    });
+  }
+
+  function hrefIsLinkedInContact(a) {
+    var h = ((a && a.getAttribute("href")) || "").toLowerCase();
+    return h.indexOf("linkedin.com") !== -1;
+  }
+
+  /* Copy only allows LinkedIn as a CTA; React or old markup may leave extra <a> / <button> outside .mch-contact-actions. */
+  function enforceContactBlocksOnlyLinkedIn(container) {
+    if (!container) return;
+    queryAll(".text-zone, .mch-contact-side", container).forEach(function (block) {
+      var linkedinKept = false;
+      queryAll("a", block).forEach(function (a) {
+        if (hrefIsLinkedInContact(a)) {
+          if (linkedinKept) removeEl(a);
+          else linkedinKept = true;
+        } else {
+          removeEl(a);
+        }
+      });
+      queryAll(
+        "button, [role='button'], input[type='submit'], input[type='button']",
+        block
+      ).forEach(removeEl);
+    });
+  }
+
+  function escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  function buildProjectsGridMarkup() {
+    return PROJECTS_DATA.map(function (project) {
+      return (
+        '<article class="image-box mch-project-card">' +
+        '<div class="portfolio-image mch-project-placeholder" aria-hidden="true"></div>' +
+        '<div class="content">' +
+        '<h3 class="title">' +
+        escapeHtml(project.name) +
+        "</h3>" +
+        '<p class="description">' +
+        escapeHtml(project.description) +
+        "</p>" +
+        "</div>" +
+        "</article>"
+      );
+    }).join("");
   }
 
   function setAttrs(el, attrs) {
@@ -371,6 +471,33 @@
     );
   }
 
+  function buildHeroPrimaryLinkedInAnchor() {
+    return (
+      '<a class="mch-hero-btn mch-hero-btn--primary" href="' +
+      LINKEDIN_URL +
+      '" target="_blank" rel="noopener noreferrer" aria-label="' +
+      HERO_PRIMARY_ARIA_LABEL.replace(/"/g, "&quot;") +
+      '">' +
+      primaryCtaInnerHTML() +
+      "</a>"
+    );
+  }
+
+  function getContactMainMarkup() {
+    return (
+      "<h1>Contact Us</h1>" +
+      '<p class="mch-page-intro">A thoughtful first conversation is often the best place to start.</p>' +
+      '<div class="mch-rich-copy">' +
+      "<p>Matin Consulting House is open to professional enquiries related to strategy, transformation, data-led decision support, and delivery-focused advisory work.</p>" +
+      "<p>The preferred first step is a LinkedIn message, which keeps outreach simple and gives us a clear starting point for the discussion.</p>" +
+      "</div>" +
+      '<div class="mch-contact-actions">' +
+      '<div class="mch-hero-buttons mch-hero-buttons--contact">' +
+      buildHeroPrimaryLinkedInAnchor() +
+      "</div></div>"
+    );
+  }
+
   function ensureMobileMenuToggle(navContainer) {
     var toggle = query(".mch-mobile-menu-toggle");
     if (!toggle) {
@@ -474,13 +601,7 @@
       HERO_HEADLINE +
       "</h1>" +
       '<div class="mch-hero-buttons">' +
-      '<a class="mch-hero-btn mch-hero-btn--primary" href="' +
-      LINKEDIN_URL +
-      '" target="_blank" rel="noopener noreferrer" aria-label="' +
-      HERO_PRIMARY_ARIA_LABEL.replace(/"/g, "&quot;") +
-      '">' +
-      primaryCtaInnerHTML() +
-      "</a>" +
+      buildHeroPrimaryLinkedInAnchor() +
       '<a class="mch-hero-btn mch-hero-btn--secondary" href="' +
       PORTFOLIO_PUBLIC_PATH +
       '" data-mch-route="' +
@@ -560,7 +681,7 @@
 
     aboutText.classList.add("mch-about-tuned");
     /* React can replace this node after we run; only write when our structure is missing (avoids innerHTML === string churn). */
-    if (!aboutText.querySelector(".about-layout")) {
+    if (!aboutText.querySelector("main.about-page")) {
       aboutText.innerHTML = ABOUT_MAIN_MARKUP;
     }
   }
@@ -572,6 +693,23 @@
       if (normalizePathname() !== ABOUT_ROUTE) return;
       updateAbout();
       syncAboutTypographyLayer();
+    }
+
+    window.queueMicrotask(tick);
+    window.requestAnimationFrame(function () {
+      window.requestAnimationFrame(tick);
+    });
+    [0, 40, 120, 280, 600, 1400].forEach(function (ms) {
+      window.setTimeout(tick, ms);
+    });
+  }
+
+  function scheduleContactReconcile() {
+    if (normalizePathname() !== CONTACT_ROUTE) return;
+
+    function tick() {
+      if (normalizePathname() !== CONTACT_ROUTE) return;
+      updateContact();
     }
 
     window.queueMicrotask(tick);
@@ -595,21 +733,20 @@
     setText(heading, NAV_LABEL_PORTFOLIO);
 
     var intro = query(".mch-projects-intro", container);
-    if (!intro) {
-      intro = document.createElement("p");
-      intro.className = "mch-projects-intro";
-      container.insertBefore(intro, container.querySelector("div"));
+    if (intro) {
+      removeEl(intro);
     }
-    setText(intro, PROJECTS_INTRO_COPY);
+
+    var grid = query(".images-container", container);
+    if (!grid) {
+      grid = document.createElement("div");
+      grid.className = "images-container";
+      container.appendChild(grid);
+    }
+    setHTML(grid, buildProjectsGridMarkup());
 
     queryAll(".images-container .btn", container).forEach(function (button) {
-      setText(button, "View project");
-    });
-
-    queryAll(PROJECT_TEXT_NODES_SELECTOR, container).forEach(function (node) {
-      if (node.textContent && node.textContent.trim() === BRAND_NAME) {
-        node.textContent = BRAND_NAME;
-      }
+      removeEl(button);
     });
   }
 
@@ -618,16 +755,15 @@
     if (!container) return;
 
     var page = container.closest(".page");
-    var textZone = query(".text-zone", container);
     var info = query(".info-map", container);
     var mapWrap = query(".map-wrap", container);
 
     if (page) page.classList.add("mch-page-contact");
     container.classList.add("mch-contact-shell");
 
-    if (textZone) {
-      setHTML(textZone, CONTACT_MAIN_MARKUP);
-    }
+    queryAll(".text-zone", container).forEach(function (zone) {
+      zone.innerHTML = getContactMainMarkup();
+    });
 
     if (info) {
       info.className = "mch-contact-side";
@@ -637,15 +773,33 @@
     if (mapWrap) {
       mapWrap.classList.add("mch-contact-map-hidden");
     }
+
+    purgeLearnMoreAboutUsFromContact(container);
+    enforceContactBlocksOnlyLinkedIn(container);
+    queryAll(
+      ".mch-button-secondary,a[href='/'][data-mch-route],a[href='/'].mch-button",
+      container
+    ).forEach(removeEl);
+    enforceContactBlocksOnlyLinkedIn(container);
   }
 
   function cleanupRouteArtifacts() {
-    if (window.location.pathname !== HOME_ROUTE) {
+    if (normalizePathname() !== HOME_ROUTE) {
       queryAll(".mch-home-sections").forEach(removeEl);
     }
   }
 
   function normalizePathname() {
+    var h = window.location.hash || "";
+    if (h.length >= 2 && h.charAt(0) === "#" && h.charAt(1) === "/") {
+      var hp = h.slice(1);
+      var qi = hp.indexOf("?");
+      if (qi !== -1) hp = hp.slice(0, qi);
+      while (hp.length > 1 && hp.charAt(hp.length - 1) === "/") {
+        hp = hp.slice(0, -1);
+      }
+      if (hp) return hp;
+    }
     var p = window.location.pathname || "/";
     while (p.length > 1 && p.charAt(p.length - 1) === "/") {
       p = p.slice(0, -1);
@@ -685,6 +839,7 @@
   function handleSectionHash() {
     var hash = window.location.hash || "";
     if (!hash || hash.charAt(0) !== "#") return;
+    if (hash.length >= 2 && hash.charAt(1) === "/") return;
 
     var targetId = hash.slice(1);
     if (!targetId) return;
@@ -694,7 +849,12 @@
     }, 120);
   }
 
+  function syncContactRouteBodyClass() {
+    document.body.classList.toggle("mch-on-contact", normalizePathname() === CONTACT_ROUTE);
+  }
+
   function applyBranding() {
+    syncContactRouteBodyClass();
     applyHeroStaggerPreference();
     document.title = BRAND_NAME;
     cleanupRouteArtifacts();
@@ -710,6 +870,7 @@
     syncAboutOneScreenClass();
     syncAboutTypographyLayer();
     scheduleAboutReconcile();
+    scheduleContactReconcile();
     window.queueMicrotask(syncAboutTypographyLayer);
     window.setTimeout(syncAboutTypographyLayer, 0);
     window.setTimeout(syncAboutTypographyLayer, 100);
@@ -763,13 +924,42 @@
     scheduleApply();
   });
 
+  var historyHookInstalled = false;
+  function installHistoryNavigationHook() {
+    if (historyHookInstalled) return;
+    historyHookInstalled = true;
+    var push = history.pushState;
+    var replace = history.replaceState;
+    function onSpaLocationChange() {
+      syncContactRouteBodyClass();
+      syncHomeOneScreenClass();
+      syncAboutOneScreenClass();
+      scheduleApply();
+    }
+    history.pushState = function () {
+      var ret = push.apply(history, arguments);
+      onSpaLocationChange();
+      return ret;
+    };
+    history.replaceState = function () {
+      var ret = replace.apply(history, arguments);
+      onSpaLocationChange();
+      return ret;
+    };
+    window.addEventListener("hashchange", onSpaLocationChange);
+  }
+
   window.addEventListener("popstate", function () {
+    syncContactRouteBodyClass();
     syncHomeOneScreenClass();
     syncAboutOneScreenClass();
     scheduleApply();
   });
 
-  window.addEventListener("DOMContentLoaded", function () {
+  function bootBrandOverrides() {
+    if (bootBrandOverrides.done) return;
+    bootBrandOverrides.done = true;
+    installHistoryNavigationHook();
     initBackgroundParallax();
     applyBranding();
     observer.observe(document.body, { childList: true, subtree: true });
@@ -779,5 +969,11 @@
         scheduleApply();
       });
     }
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootBrandOverrides);
+  } else {
+    bootBrandOverrides();
+  }
 })();
