@@ -1,3 +1,7 @@
 [build]
-  publish = "02_rebrand_working_site/maheenmatin.com"
+  base = "apps/web"
+  command = "npm run build"
+  publish = ".next"
 
+[build.environment]
+  NODE_VERSION = "20"

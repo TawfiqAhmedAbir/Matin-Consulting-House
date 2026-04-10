@@ -145,6 +145,10 @@
     "<p class=\"mch-side-card-label\">Contact details</p>" +
     "<h2>Business enquiries</h2>" +
     "<p>Strategy, delivery, BI pipeline thinking, and advisory conversations for SMEs.</p>" +
+    '<div class="mch-contact-side-note">' +
+    '<span class="mch-contact-side-note__label">Best fit</span>' +
+    "<strong>SMEs, founders, and mission-led teams shaping meaningful change.</strong>" +
+    "</div>" +
     '<div class="mch-contact-detail-group">' +
     '<div class="mch-contact-detail"><span>Location</span><strong>London</strong></div>' +
     '<div class="mch-contact-detail"><span>Address</span><strong>Gower Street<br>London<br>WC1E 6BT</strong></div>' +
@@ -220,6 +224,15 @@
         removeEl(p);
       });
       queryAll(".mch-rich-copy", zone).forEach(removeEl);
+      /* Only keep headline, intro line, and CTA — drop React form / merged copy blocks */
+      Array.prototype.slice.call(zone.children).forEach(function (child) {
+        if (!child || !child.tagName) return;
+        var tag = child.tagName.toLowerCase();
+        if (tag === "h1") return;
+        if (child.classList.contains("mch-page-intro")) return;
+        if (child.classList.contains("mch-contact-actions")) return;
+        removeEl(child);
+      });
     });
   }
 
@@ -465,12 +478,31 @@
 
   function getContactMainMarkup() {
     return (
-      "<h1>Contact Us</h1>" +
-      '<p class="mch-page-intro">A thoughtful first conversation is often the best place to start.</p>' +
+      '<p class="mch-side-card-label mch-contact-eyebrow">Business enquiries</p>' +
+      '<h1 class="mch-contact-title"><span class="mch-contact-title-word">Contact</span><span class="mch-contact-title-word">Us</span></h1>' +
+      '<p class="mch-page-intro mch-contact-lead">A thoughtful first conversation is often the best place to start.</p>' +
+      '<div class="mch-contact-feature-row" aria-label="Conversation focus areas">' +
+      '<span class="mch-contact-feature">Strategy</span>' +
+      '<span class="mch-contact-feature">Delivery</span>' +
+      '<span class="mch-contact-feature">BI pipeline</span>' +
+      "</div>" +
       '<div class="mch-contact-actions">' +
       '<div class="mch-hero-buttons">' +
       buildHeroPrimaryLinkedInAnchor() +
       "</div></div>"
+    );
+  }
+
+  function getContactLayoutMarkup() {
+    return (
+      '<div class="mch-contact-layout">' +
+      '<section class="mch-contact-primary">' +
+      getContactMainMarkup() +
+      "</section>" +
+      '<aside class="mch-contact-side">' +
+      CONTACT_SIDE_MARKUP +
+      "</aside>" +
+      "</div>"
     );
   }
 
@@ -692,7 +724,7 @@
     window.requestAnimationFrame(function () {
       window.requestAnimationFrame(tick);
     });
-    [0, 40, 120, 280, 600, 1400].forEach(function (ms) {
+    [0, 40, 120, 280, 600, 1400, 2200, 3600, 5200, 8000, 12000].forEach(function (ms) {
       window.setTimeout(tick, ms);
     });
   }
@@ -731,24 +763,10 @@
     if (!container) return;
 
     var page = container.closest(".page");
-    var info = query(".info-map", container);
-    var mapWrap = query(".map-wrap", container);
 
     if (page) page.classList.add("mch-page-contact");
     container.classList.add("mch-contact-shell");
-
-    queryAll(".text-zone", container).forEach(function (zone) {
-      zone.innerHTML = getContactMainMarkup();
-    });
-
-    if (info) {
-      info.className = "mch-contact-side";
-      setHTML(info, CONTACT_SIDE_MARKUP);
-    }
-
-    if (mapWrap) {
-      mapWrap.classList.add("mch-contact-map-hidden");
-    }
+    setHTML(container, getContactLayoutMarkup());
 
     enforceContactOnlyLinkedInCTA(container);
     stripStrayContactParagraphs(container);
@@ -760,9 +778,9 @@
         var c = query("#contact-container");
         if (!c) return;
         stripStrayContactParagraphs(c);
-        var zone = query(".text-zone", c);
-        if (zone && !query(".mch-contact-actions", zone)) {
-          zone.innerHTML = getContactMainMarkup();
+        var layout = query(".mch-contact-layout", c);
+        if (!layout) {
+          c.innerHTML = getContactLayoutMarkup();
         }
         enforceContactOnlyLinkedInCTA(c);
         stripStrayContactParagraphs(c);
@@ -796,6 +814,13 @@
 
   function syncAboutOneScreenClass() {
     document.documentElement.classList.remove("mch-about-one-screen");
+  }
+
+  function syncContactOneScreenClass() {
+    document.documentElement.classList.toggle(
+      "mch-contact-one-screen",
+      normalizePathname() === CONTACT_ROUTE
+    );
   }
 
   function syncHomeOneScreenClass() {
@@ -842,6 +867,7 @@
 
   function applyBranding() {
     syncContactRouteBodyClass();
+    syncContactOneScreenClass();
     applyHeroStaggerPreference();
     document.title = BRAND_NAME;
     cleanupRouteArtifacts();
@@ -919,6 +945,7 @@
     var replace = history.replaceState;
     function onSpaLocationChange() {
       syncContactRouteBodyClass();
+      syncContactOneScreenClass();
       syncHomeOneScreenClass();
       syncAboutOneScreenClass();
       scheduleApply();
@@ -938,6 +965,7 @@
 
   window.addEventListener("popstate", function () {
     syncContactRouteBodyClass();
+    syncContactOneScreenClass();
     syncHomeOneScreenClass();
     syncAboutOneScreenClass();
     scheduleApply();

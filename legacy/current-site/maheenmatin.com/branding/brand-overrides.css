@@ -221,6 +221,61 @@ body,
   margin: 0 !important;
 }
 
+/*
+ * CRA #contact-container keeps class "container": position absolute, height 82vh, translateY(-50%),
+ * and .text-zone is absolutely inset — clips the right column and bottom of Contact details.
+ */
+.page.mch-page-contact {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
+#contact-container.mch-contact-shell {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  transform-style: flat !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  width: 100% !important;
+  opacity: 1 !important;
+  animation: none !important;
+  will-change: auto !important;
+  overflow: visible !important;
+  box-sizing: border-box !important;
+}
+
+#contact-container.mch-contact-shell > .text-zone {
+  position: relative !important;
+  inset: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+#contact-container.mch-contact-shell > .mch-contact-side {
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
+  left: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: auto !important;
+  opacity: 1 !important;
+  animation: none !important;
+  z-index: 1 !important;
+}
+
 .nav-container,
 .nav-container.show-nav-page nav {
   position: fixed !important;
@@ -1403,6 +1458,8 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 
 .mch-contact-shell {
   grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+  align-items: stretch !important;
+  align-content: start !important;
 }
 
 /* About: single column, no right rail (cube / icon stack removed in JS) */
@@ -1716,13 +1773,37 @@ body.mch-mobile-menu-open .mch-mobile-menu {
 .page.mch-page-contact #contact-container .text-zone {
   display: flex !important;
   flex-direction: column !important;
-  align-items: flex-start !important;
+  align-items: center !important;
+  text-align: center !important;
   vertical-align: unset !important;
+}
+
+.page.mch-page-contact #contact-container .text-zone h1,
+body.mch-on-contact #contact-container .text-zone h1 {
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.page.mch-page-contact #contact-container .mch-contact-lead,
+body.mch-on-contact #contact-container .mch-contact-lead {
+  text-align: center !important;
+  max-width: 36rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  font-size: clamp(1.28rem, 2.4vw, 1.65rem) !important;
+  line-height: 1.45 !important;
+  font-weight: 600 !important;
 }
 
 /* CRA contact page re-inserts its default <p>; only our intro line keeps this class */
 .page.mch-page-contact #contact-container .text-zone p:not(.mch-page-intro),
 body.mch-on-contact #contact-container .text-zone p:not(.mch-page-intro) {
+  display: none !important;
+}
+
+/* Legacy body copy re-mounted with React */
+.page.mch-page-contact #contact-container .text-zone .mch-rich-copy,
+body.mch-on-contact #contact-container .text-zone .mch-rich-copy {
   display: none !important;
 }
 
@@ -1813,9 +1894,34 @@ body.mch-on-contact #contact-container .text-zone p:not(.mch-page-intro) {
   gap: 16px;
   width: 100% !important;
   height: auto !important;
-  min-height: 0 !important;
+  min-height: min-content !important;
   margin: 0 !important;
   padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.mch-contact-side {
+  padding: clamp(20px, 3vw, 30px) !important;
+  border-radius: var(--mch-radius-lg) !important;
+  border: 1px solid rgba(243, 232, 211, 0.12) !important;
+  background: linear-gradient(165deg, rgba(10, 34, 62, 0.82), rgba(5, 18, 38, 0.92)) !important;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22) !important;
+}
+
+.mch-contact-side h2 {
+  margin: 0 !important;
+  color: var(--mch-text) !important;
+  font-size: clamp(1.25rem, 2.2vw, 1.5rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.mch-contact-side > p:not(.mch-side-card-label) {
+  margin: 0 !important;
+  color: var(--mch-text-soft) !important;
+  font-size: 15px !important;
+  line-height: 1.65 !important;
 }
 
 .mch-side-card-accent {
@@ -2044,7 +2150,8 @@ body.mch-on-contact #contact-container .text-zone p:not(.mch-page-intro) {
 body.mch-on-contact #contact-container .text-zone {
   display: flex !important;
   flex-direction: column !important;
-  align-items: flex-start !important;
+  align-items: center !important;
+  text-align: center !important;
   vertical-align: unset !important;
 }
 
@@ -2123,6 +2230,543 @@ body.mch-on-contact #contact-container .text-zone .mch-contact-actions > a.mch-b
   font-weight: 600;
 }
 
+.page.mch-page-contact #contact-container.mch-contact-shell {
+  display: block !important;
+}
+
+.page.mch-page-contact #contact-container.mch-contact-shell:has(.mch-contact-layout) > *:not(.mch-contact-layout) {
+  display: none !important;
+}
+
+.page.mch-page-contact #contact-container .mch-contact-layout {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  align-items: stretch !important;
+  justify-items: center !important;
+  gap: clamp(42px, 5vw, 72px) !important;
+  width: 100% !important;
+}
+
+.page.mch-page-contact #contact-container .mch-contact-primary {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  gap: clamp(18px, 2.2dvh, 28px) !important;
+  width: 100% !important;
+  max-width: 37rem !important;
+  text-align: left !important;
+  position: relative;
+}
+
+.page.mch-page-contact #contact-container .mch-contact-primary > * {
+  width: min(100%, 37rem);
+}
+
+.page.mch-page-contact #contact-container .mch-contact-primary::before {
+  content: "";
+  position: absolute;
+  left: -2rem;
+  top: 10%;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(214, 183, 126, 0.16) 0%, rgba(214, 183, 126, 0.06) 34%, rgba(214, 183, 126, 0) 72%);
+  filter: blur(18px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.page.mch-page-contact #contact-container .mch-contact-primary > * {
+  position: relative;
+  z-index: 1;
+}
+
+.page.mch-page-contact #contact-container .mch-contact-eyebrow {
+  margin: 0 !important;
+  color: rgba(243, 232, 211, 0.9) !important;
+}
+
+.page.mch-page-contact #contact-container .mch-contact-feature-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: -4px;
+}
+
+.page.mch-page-contact #contact-container .mch-contact-feature {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 8px 12px;
+  border: 1px solid rgba(243, 232, 211, 0.12);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  color: rgba(249, 242, 230, 0.9);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@keyframes mch-contact-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes mch-contact-fade-card {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes mch-contact-word-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.42em, 0);
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    filter: blur(0);
+  }
+}
+
+html.mch-contact-one-screen {
+  height: 100%;
+  max-height: 100dvh;
+  overflow: hidden !important;
+  scrollbar-width: none;
+}
+
+html.mch-contact-one-screen body {
+  height: 100%;
+  max-height: 100dvh;
+  overflow: hidden !important;
+  scrollbar-width: none;
+}
+
+html.mch-contact-one-screen #root {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+html.mch-contact-one-screen #root > * {
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact {
+  top: 0 !important;
+  margin-top: var(--mch-nav-height) !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: clamp(8px, 1.5dvh, 16px) !important;
+  min-height: calc(100dvh - var(--mch-nav-height)) !important;
+  max-height: calc(100dvh - var(--mch-nav-height)) !important;
+  height: calc(100dvh - var(--mch-nav-height)) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell {
+  position: relative !important;
+  flex: 1 1 0 !important;
+  width: min(76rem, 100%) !important;
+  max-width: min(76rem, calc(100vw - 48px)) !important;
+  min-height: 0 !important;
+  max-height: calc(100dvh - var(--mch-nav-height) - 18px) !important;
+  height: auto !important;
+  overflow: hidden !important;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr) !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+  gap: clamp(44px, 5vw, 72px) !important;
+  padding: clamp(28px, 3.4vw, 42px) !important;
+  border: 1px solid rgba(243, 232, 211, 0.09) !important;
+  background: linear-gradient(180deg, rgba(8, 25, 50, 0.58), rgba(5, 18, 38, 0.72)) !important;
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.24) !important;
+  isolation: isolate;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.035), transparent 38%),
+    linear-gradient(180deg, rgba(2, 10, 24, 0), rgba(2, 10, 24, 0.14));
+  z-index: 0;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell:has(.mch-contact-layout) > *:not(.mch-contact-layout) {
+  display: none !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell > .mch-contact-layout {
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr) !important;
+  align-items: stretch !important;
+  justify-items: center !important;
+  gap: clamp(44px, 5vw, 72px) !important;
+  width: 100% !important;
+  min-height: 0 !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary,
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-side {
+  position: relative;
+  z-index: 1;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary {
+  width: 100% !important;
+  max-width: 37rem !important;
+  align-self: stretch !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+  gap: clamp(18px, 2.2dvh, 28px) !important;
+  padding-right: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary > * {
+  width: min(100%, 37rem);
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary h1.mch-contact-title {
+  margin: 0 !important;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.18em;
+  align-items: flex-end;
+  justify-content: flex-start;
+  font-size: clamp(3.75rem, min(6.6vw, 10.2dvh), 5.75rem) !important;
+  line-height: 0.94 !important;
+  letter-spacing: -0.05em !important;
+  text-wrap: balance;
+  text-shadow: 0 10px 32px rgba(0, 0, 0, 0.24), 0 0 18px rgba(215, 184, 126, 0.08) !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-title-word {
+  display: inline-block;
+  opacity: 1;
+  animation: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-title-word:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-title-word:nth-child(2) {
+  animation-delay: 0ms;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-lead {
+  margin: 0 !important;
+  max-width: 33rem !important;
+  color: var(--mch-text-soft) !important;
+  font-size: clamp(1.18rem, min(1.7vw, 2.7dvh), 1.42rem) !important;
+  line-height: 1.58 !important;
+  letter-spacing: -0.01em;
+  text-align: left !important;
+  opacity: 1;
+  animation: none !important;
+  transform: none !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-feature-row {
+  margin-top: -2px;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-actions {
+  width: auto !important;
+  margin-top: clamp(4px, 0.8dvh, 10px) !important;
+  justify-content: flex-start !important;
+  opacity: 1;
+  animation: none !important;
+  transform: none !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-hero-buttons {
+  justify-content: flex-start !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary a.mch-hero-btn.mch-hero-btn--primary {
+  transition:
+    transform 180ms ease,
+    box-shadow 220ms ease,
+    filter 220ms ease,
+    background 220ms ease !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary a.mch-hero-btn.mch-hero-btn--primary:hover {
+  transform: translateY(-1px) scale(1.05) !important;
+  filter: brightness(1.03);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.25) inset,
+    0 16px 34px rgba(0, 0, 0, 0.25),
+    0 0 22px rgba(242, 228, 206, 0.08) !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary a.mch-hero-btn.mch-hero-btn--primary:active {
+  transform: translateY(0) scale(0.95) !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-layout > .mch-contact-side {
+  width: 100% !important;
+  max-width: 32rem !important;
+  align-self: stretch !important;
+  align-content: start !important;
+  gap: clamp(14px, 1.8dvh, 18px) !important;
+  min-height: 0 !important;
+  padding: clamp(22px, 2.9vw, 34px) !important;
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 242, 219, 0.08), rgba(255, 242, 219, 0.02)),
+    linear-gradient(160deg, rgba(18, 49, 47, 0.92), rgba(8, 23, 28, 0.95) 62%, rgba(44, 28, 16, 0.92)) !important;
+  border: 1px solid rgba(219, 192, 142, 0.22) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(116%) !important;
+  backdrop-filter: blur(18px) saturate(116%) !important;
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 248, 236, 0.08),
+    inset 0 -18px 40px rgba(2, 10, 24, 0.14) !important;
+  opacity: 1;
+  animation: none !important;
+  transform: none !important;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    background 220ms ease !important;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-layout > .mch-contact-side::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at top right, rgba(220, 191, 138, 0.18), transparent 34%),
+    linear-gradient(180deg, rgba(255, 240, 214, 0.08), transparent 24%);
+  pointer-events: none;
+}
+
+html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-layout > .mch-contact-side:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(225, 198, 142, 0.34) !important;
+  box-shadow:
+    0 28px 56px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(255, 248, 236, 0.09),
+    0 0 24px rgba(214, 183, 126, 0.08) !important;
+}
+
+html.mch-contact-one-screen .mch-contact-side .mch-side-card-label {
+  margin: 0 0 4px !important;
+}
+
+html.mch-contact-one-screen .mch-contact-side h2 {
+  font-size: clamp(1.4rem, min(2vw, 3.3dvh), 1.8rem) !important;
+  line-height: 1.16 !important;
+}
+
+html.mch-contact-one-screen .mch-contact-side > p:not(.mch-side-card-label) {
+  font-size: clamp(0.98rem, min(1.16vw, 2.02dvh), 1.06rem) !important;
+  line-height: 1.62 !important;
+}
+
+html.mch-contact-one-screen .mch-contact-side .mch-contact-side-note {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid rgba(225, 198, 142, 0.18);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 240, 214, 0.09), rgba(255, 240, 214, 0.03));
+}
+
+html.mch-contact-one-screen .mch-contact-side .mch-contact-side-note__label {
+  color: rgba(243, 232, 211, 0.86);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+html.mch-contact-one-screen .mch-contact-side .mch-contact-side-note strong {
+  color: var(--mch-text);
+  font-size: 0.98rem;
+  line-height: 1.55;
+}
+
+html.mch-contact-one-screen .mch-contact-detail-group {
+  gap: clamp(10px, 1.2dvh, 14px) !important;
+  margin-top: clamp(8px, 1.2dvh, 14px) !important;
+}
+
+html.mch-contact-one-screen .mch-contact-detail {
+  padding: clamp(12px, 1.45dvh, 16px) clamp(14px, 1.5vw, 18px) !important;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 236, 0.08), rgba(255, 248, 236, 0.02)),
+    linear-gradient(180deg, rgba(7, 24, 48, 0.34), rgba(7, 24, 48, 0.5)) !important;
+  border-color: rgba(225, 198, 142, 0.16) !important;
+}
+
+html.mch-contact-one-screen .mch-contact-detail span {
+  margin-bottom: 4px !important;
+}
+
+html.mch-contact-one-screen .mch-contact-detail strong {
+  font-size: clamp(0.92rem, min(1vw, 1.85dvh), 1rem) !important;
+  line-height: 1.55 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-title-word,
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-lead,
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-actions,
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-layout > .mch-contact-side {
+    opacity: 1 !important;
+    animation: none !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary a.mch-hero-btn.mch-hero-btn--primary,
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-layout > .mch-contact-side {
+    transition: none !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary a.mch-hero-btn.mch-hero-btn--primary:hover,
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-layout > .mch-contact-side:hover {
+    transform: none !important;
+  }
+}
+
+@media (max-height: 760px) and (min-width: 901px) {
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell {
+    gap: clamp(20px, 2.4vw, 30px) !important;
+    padding: clamp(18px, 2.2vw, 26px) !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary h1.mch-contact-title {
+    font-size: clamp(3rem, min(5vw, 7.8dvh), 4.5rem) !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-lead {
+    font-size: clamp(1.04rem, min(1.28vw, 2.15dvh), 1.22rem) !important;
+    max-width: 26rem !important;
+  }
+
+  html.mch-contact-one-screen .mch-contact-side {
+    padding: 18px !important;
+  }
+
+  html.mch-contact-one-screen .mch-contact-side > p:not(.mch-side-card-label),
+  html.mch-contact-one-screen .mch-contact-detail strong {
+    font-size: 0.92rem !important;
+    line-height: 1.48 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  html.mch-contact-one-screen,
+  html.mch-contact-one-screen body {
+    height: auto;
+    max-height: none;
+    overflow-y: auto !important;
+  }
+
+  html.mch-contact-one-screen #root {
+    height: auto;
+    max-height: none;
+    overflow: visible !important;
+  }
+
+  html.mch-contact-one-screen #root > * {
+    flex: none !important;
+    display: block !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact {
+    height: auto !important;
+    max-height: none !important;
+    min-height: calc(100dvh - var(--mch-nav-height)) !important;
+    overflow: visible !important;
+    display: block !important;
+    padding-bottom: max(28px, env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell {
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 24px !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell > .mch-contact-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary {
+    align-items: center !important;
+    text-align: center !important;
+    padding-right: 0 !important;
+    max-width: min(100%, 36rem) !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary h1.mch-contact-title,
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary > * {
+    justify-content: center !important;
+    width: min(100%, 36rem) !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-lead {
+    max-width: 34rem !important;
+    text-align: center !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-feature-row {
+    justify-content: center !important;
+  }
+
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-contact-actions,
+  html.mch-contact-one-screen .page.mch-page-contact #contact-container.mch-contact-shell .mch-contact-primary .mch-hero-buttons {
+    justify-content: center !important;
+  }
+}
+
 @media (max-width: 1180px) {
   :root {
     --mch-nav-height: 80px;
@@ -2152,6 +2796,11 @@ body.mch-on-contact #contact-container .text-zone .mch-contact-actions > a.mch-b
   .mch-contact-shell,
   .mch-cta-panel {
     grid-template-columns: 1fr !important;
+  }
+
+  #contact-container.mch-contact-shell {
+    gap: clamp(28px, 5vw, 40px) !important;
+    padding-bottom: max(36px, env(safe-area-inset-bottom, 0px)) !important;
   }
 
   .mch-cta-actions {

@@ -1,0 +1,17 @@
+.shell {
+  width: min(var(--site-max-width), calc(100vw - 32px));
+  margin: 0 auto;
+}
+
+.eyebrow {
+  color: var(--site-accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.page-copy {
+  max-width: 48rem;
+  color: var(--site-text-soft);
+}

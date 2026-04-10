@@ -7,3 +7,12 @@ Thumbs.db
 # Editor / OS
 *.swp
 *~
+
+# Dependencies and build output
+**/node_modules/
+**/.next/
+**/out/
+
+# Generated regression output
+tests/visual-regression/current/
+tests/visual-regression/test-results/

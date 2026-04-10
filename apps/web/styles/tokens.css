@@ -1,0 +1,18 @@
+:root {
+  --site-bg: #041525;
+  --site-panel: rgba(9, 30, 60, 0.72);
+  --site-panel-strong: rgba(6, 21, 43, 0.92);
+  --site-border: rgba(243, 232, 211, 0.12);
+  --site-border-strong: rgba(243, 232, 211, 0.24);
+  --site-text: #f9f2e6;
+  --site-text-soft: rgba(249, 242, 230, 0.96);
+  --site-text-muted: rgba(249, 242, 230, 0.82);
+  --site-accent: rgba(236, 220, 192, 0.99);
+  --site-max-width: 1180px;
+  --site-radius: 20px;
+  --site-radius-xl: 28px;
+  --site-radius-md: 16px;
+  --site-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+  --site-shadow-xl: 0 32px 80px rgba(0, 0, 0, 0.28);
+  --site-nav-height: 86px;
+}
